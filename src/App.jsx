@@ -230,7 +230,7 @@ function App() {
           <div className="d-flex flex-column align-items-center justify-content-center w-100" style={{ flexGrow: 1 }}>
             
             <div className="bento-card main-scanner-card p-5 text-center w-100" style={{ maxWidth: '600px' }}>
-              <div className="bento-pill dark-pill mx-auto mb-3" style={{ width: 'fit-content' }}>PHIZER OS v2.0</div>
+              <div className="bento-pill dark-pill mx-auto mb-3" style={{ width: 'fit-content' }}>PHIZER OS BETA</div>
               <h1 className="bento-header mb-4">Email Scanner</h1>
               
               {viewState === 'upload' && (
@@ -482,7 +482,7 @@ function App() {
                       <div className="bento-list-item fail-pill text-white border-0 py-3">
                         <strong className="d-block mb-1"><i className="bi bi-bug-fill"></i> Malicious Link Evidence</strong>
                         <span style={{ fontSize: '0.95rem' }}>
-                          {maliciousUrls.length} embedded link{maliciousUrls.length > 1 ? 's were' : ' was'} flagged as malicious by VirusTotal (see Embedded Links Analysis below).
+                          {maliciousUrls.length} embedded link{maliciousUrls.length > 1 ? 's were' : ' was'} flagged as malicious by VirusTotal (see Detailed Embedded Links Analysis).
                         </span>
                       </div>
                     )}
