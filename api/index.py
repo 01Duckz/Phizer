@@ -22,6 +22,26 @@ app.add_middleware(
 VIRUSTOTAL_API_KEY = os.environ.get("VIRUSTOTAL_API_KEY", "")
 MAX_PAYLOAD_SIZE = 10 * 1024 * 1024
 
+ALLOWED_EXTENSIONS = (".eml",)
+
+# Browsers/OSes are inconsistent about what Content-Type they report for .eml
+# files, so this is a permissive allow-list rather than a strict check.
+ALLOWED_CONTENT_TYPES = {
+    "message/rfc822",
+    "application/octet-stream",
+    "text/plain",
+    "application/eml",
+    "",  # some clients omit it entirely
+}
+
+# At least one of these should appear near the top of a genuine RFC 5322
+# email if it's actually an .eml file and not just something renamed to
+# look like one.
+EMAIL_HEADER_SIGNATURES = (
+    "from:", "to:", "subject:", "date:", "received:",
+    "return-path:", "message-id:", "mime-version:",
+)
+
 def check_virustotal(domain: str) -> dict:
     if not VIRUSTOTAL_API_KEY:
         return {"status": "unconfigured", "message": "API Key Missing", "details": []}
@@ -66,18 +86,52 @@ def check_virustotal(domain: str) -> dict:
 @app.post("/api")
 @app.post("/api/index")
 async def analyze_eml(file: UploadFile = File(...)):
+    # --- 1. Filename / extension validation ---
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No filename provided.")
+
+    filename_lower = file.filename.lower()
+    if not filename_lower.endswith(ALLOWED_EXTENSIONS):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file type. Only .eml files are accepted."
+        )
+
+    # --- 2. Content-Type validation (best-effort; extension is the source of truth) ---
+    if file.content_type and file.content_type.lower() not in ALLOWED_CONTENT_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported content type '{file.content_type}'. Expected a raw email (.eml) file."
+        )
+
     contents = await file.read()
 
+    # --- 3. Size validation ---
     if len(contents) > MAX_PAYLOAD_SIZE:
         raise HTTPException(status_code=413, detail="File size exceeds 10MB limit.")
     if len(contents) == 0:
         raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+    # --- 4. Structural validation: reject files that aren't actually emails, ---
+    #        even if they were named/labeled like one.
+    preview = contents[:4096].decode("utf-8", errors="ignore").lower()
+    if not any(sig in preview for sig in EMAIL_HEADER_SIGNATURES):
+        raise HTTPException(
+            status_code=400,
+            detail="File does not appear to be a valid email (.eml) file."
+        )
 
     try:
         msg = email.message_from_bytes(contents, policy=policy.default)
 
         # 1. Extract All Headers
         all_headers = [{"name": key, "value": str(val)} for key, val in msg.items()]
+
+        if not all_headers:
+            raise HTTPException(
+                status_code=400,
+                detail="File does not contain any valid email headers."
+            )
 
         # 2. Extract Relay Information (Fixed Parsing logic)
         received_headers = msg.get_all("Received") or []
@@ -186,5 +240,9 @@ async def analyze_eml(file: UploadFile = File(...)):
             "relays": relays
         }
 
+    except HTTPException:
+        # Preserve validation errors (400/413) raised above instead of
+        # masking them as a generic 500.
+        raise
     except Exception as err:
         raise HTTPException(status_code=500, detail=str(err))

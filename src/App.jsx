@@ -58,10 +58,33 @@ function App() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [modalState, setModalState] = useState({ isOpen: false, title: '', body: null });
 
+  const MAX_CLIENT_FILE_SIZE = 10 * 1024 * 1024; // 10MB, mirrors backend limit
+
+  const validateFile = (file) => {
+    if (!file) return 'Please choose a file to scan.';
+
+    const nameLower = file.name.toLowerCase();
+    if (!nameLower.endsWith('.eml')) {
+      return 'Invalid file type. Only .eml files are accepted.';
+    }
+    if (file.size === 0) {
+      return 'The selected file is empty.';
+    }
+    if (file.size > MAX_CLIENT_FILE_SIZE) {
+      return 'File size exceeds the 10MB limit.';
+    }
+    return null;
+  };
+
   const handleFileUpload = async (event) => {
     event.preventDefault();
     const file = event.target.fileInput.files[0];
-    if (!file) return;
+
+    const validationError = validateFile(file);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
     setViewState('scanning');
     setError(null);
@@ -210,7 +233,23 @@ function App() {
               {viewState === 'upload' && (
                 <form onSubmit={handleFileUpload}>
                   <div className="mb-4">
-                    <input type="file" name="fileInput" className="bento-input form-control p-3" accept=".eml" required />
+                    <input
+                      type="file"
+                      name="fileInput"
+                      className="bento-input form-control p-3"
+                      accept=".eml"
+                      required
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        const validationError = validateFile(file);
+                        if (validationError) {
+                          setError(validationError);
+                          e.target.value = '';
+                        } else {
+                          setError(null);
+                        }
+                      }}
+                    />
                   </div>
                   <button type="submit" className="bento-btn w-100 justify-content-center py-3 fs-4">
                     <i className="bi bi-play-fill btn-icon"></i> ANALYZE .EML
