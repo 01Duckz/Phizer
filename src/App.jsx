@@ -9,6 +9,12 @@ const EDUCATIONAL_CONTENT = {
   headers: { title: 'What are Email Headers?', body: 'Headers are hidden digital footprints attached to every email. They contain routing data, authentication results, and software details used by the sender.' }
 };
 
+const getAuthColor = (status) => {
+  if (status === 'PASS') return 'pass-pill';
+  if (status === 'FAIL') return 'fail-pill';
+  return 'neutral-pill';
+};
+
 function App() {
   const [viewState, setViewState] = useState('upload'); 
   const [report, setReport] = useState(null);
@@ -165,24 +171,24 @@ function App() {
                   <div className="d-flex flex-column gap-3 mb-3">
                     <div className="d-flex align-items-center gap-2">
                       <strong style={{ width: '60px' }}>SPF</strong>
-                      <span className={`bento-pill flex-grow-1 text-center ${auth.spf === 'PASS' ? 'dark-pill' : 'outline-pill'}`}>{auth.spf}</span>
+                      <span className={`bento-pill flex-grow-1 text-center ${getAuthColor(auth.spf)}`}>{auth.spf || 'NONE'}</span>
                       <button className="help-icon" onClick={() => openEduModal('spf')}><i className="bi bi-question-lg"></i></button>
                     </div>
                     <div className="d-flex align-items-center gap-2">
                       <strong style={{ width: '60px' }}>DKIM</strong>
-                      <span className={`bento-pill flex-grow-1 text-center ${auth.dkim === 'PASS' ? 'dark-pill' : 'outline-pill'}`}>{auth.dkim}</span>
+                      <span className={`bento-pill flex-grow-1 text-center ${getAuthColor(auth.dkim)}`}>{auth.dkim || 'NONE'}</span>
                       <button className="help-icon" onClick={() => openEduModal('dkim')}><i className="bi bi-question-lg"></i></button>
                     </div>
                     <div className="d-flex align-items-center gap-2">
                       <strong style={{ width: '60px' }}>DMARC</strong>
-                      <span className={`bento-pill flex-grow-1 text-center ${auth.dmarc === 'PASS' ? 'dark-pill' : 'outline-pill'}`}>{auth.dmarc}</span>
+                      <span className={`bento-pill flex-grow-1 text-center ${getAuthColor(auth.dmarc)}`}>{auth.dmarc || 'NONE'}</span>
                       <button className="help-icon" onClick={() => openEduModal('dmarc')}><i className="bi bi-question-lg"></i></button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* SECTION 1.5: IMPORTANT HEADERS */}
+              {/* SECTION 1.5: IMPORTANT HEADERS (Added Scroll-X) */}
               <div className="col-12">
                 <div className="bento-card p-4">
                   <span className="handwriting-text d-block mb-3 fs-4"><i className="bi bi-envelope-paper"></i> Important Email Details</span>
@@ -191,7 +197,7 @@ function App() {
                       <div key={idx} className="col-md-6">
                         <div className="bento-list-item h-100">
                           <strong className="d-block mb-1 text-muted small text-uppercase">{hdr.name}</strong>
-                          <div className="pixel-mono fs-6 text-break">{hdr.value}</div>
+                          <div className="pixel-mono fs-6 scroll-x">{hdr.value}</div>
                         </div>
                       </div>
                     ))}
@@ -211,16 +217,41 @@ function App() {
                     <div className="text-muted">No relay information found.</div>
                   ) : (
                     <>
-                      <div className="relay-graph-container mb-4">
-                        {relaysList.map((relay, idx) => (
-                          <div key={idx} className="relay-bar mb-2" style={{ width: `${Math.min(20 + (idx * 15), 100)}%` }}>
-                            <span className="relay-hop-badge">Hop {relay.hop || idx + 1}</span>
-                          </div>
-                        ))}
+                      <div className="relay-chart-container mb-4">
+                        <div className="chart-grid">
+                          <div className="grid-line"></div>
+                          <div className="grid-line"></div>
+                          <div className="grid-line"></div>
+                          <div className="grid-line"></div>
+                          <div className="grid-line"></div>
+                        </div>
+                        
+                        {relaysList.map((relay, idx) => {
+                          const delayNum = parseFloat(relay.delay) || 0;
+                          const maxScale = Math.max(...relaysList.map(r => parseFloat(r.delay) || 0), 1.2);
+                          const widthPct = (delayNum / maxScale) * 100;
+
+                          let label = '';
+                          if (relay.from && relay.by) label = `From ${relay.from} to ${relay.by}`;
+                          else if (relay.from) label = `From ${relay.from}`;
+                          else if (relay.by) label = `to ${relay.by}`;
+                          else label = `Hop ${relay.hop || idx + 1}`;
+
+                          return (
+                            <div key={idx} className="chart-row">
+                              <div className="chart-label scroll-x" title={label}>{label}</div>
+                              <div className="chart-bar-area">
+                                <div className="chart-bar" style={{ width: `${widthPct}%` }}>
+                                  <span className="bar-value">{delayNum}s</span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
 
-                      <div className="table-responsive">
-                        <table className="bento-table" style={{ minWidth: '800px' }}>
+                      <div className="table-responsive scroll-x">
+                        <table className="bento-table" style={{ minWidth: '900px' }}>
                           <thead>
                             <tr>
                               <th>Hop</th>
@@ -237,8 +268,8 @@ function App() {
                               <tr key={idx}>
                                 <td><strong>{relay.hop || '-'}</strong></td>
                                 <td className="pixel-mono">{relay.delay || '-'}</td>
-                                <td className="pixel-mono text-break">{relay.from || '-'}</td>
-                                <td className="pixel-mono text-break">{relay.by || '-'}</td>
+                                <td className="pixel-mono scroll-x" style={{ maxWidth: '200px' }}>{relay.from || '-'}</td>
+                                <td className="pixel-mono scroll-x" style={{ maxWidth: '200px' }}>{relay.by || '-'}</td>
                                 <td className="pixel-mono">{relay.with || '-'}</td>
                                 <td className="pixel-mono">{relay.time || '-'}</td>
                                 <td>

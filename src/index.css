@@ -144,6 +144,10 @@ body, html {
 .dark-pill { background-color: #2B2B2B; color: #F4F5F7; }
 .light-pill { background-color: #F4F5F7; color: #2B2B2B; }
 .outline-pill { background-color: transparent; color: #2B2B2B; }
+.pass-pill { background-color: #1f8f5f; color: #ffffff; border-color: #1a7048; }
+.fail-pill { background-color: #d93b3b; color: #ffffff; border-color: #b72626; }
+.neutral-pill { background-color: #e9edf2; color: #2B2B2B; border-color: #2B2B2B; }
+.scroll-x { overflow-x: auto; }
 
 .pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; }
 
@@ -221,6 +225,67 @@ body, html {
 }
 .relay-hop-badge { color: #FFFFFF; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 0.9rem; }
 
+.relay-chart-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 8px 6px;
+  background: #edf0f4;
+  border: 2px solid #2B2B2B;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.chart-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  pointer-events: none;
+}
+.grid-line {
+  border-left: 1px solid rgba(43, 43, 43, 0.15);
+}
+.chart-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+.chart-label {
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #2B2B2B;
+  white-space: nowrap;
+}
+.chart-bar-area {
+  position: relative;
+  background: #f8f9fb;
+  border: 2px solid #2B2B2B;
+  border-radius: 12px;
+  height: 28px;
+  overflow: hidden;
+}
+.chart-bar {
+  height: 100%;
+  min-width: 52px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #5b6bff 0%, #3db5ff 100%);
+}
+.bar-value {
+  color: #ffffff;
+  font-family: 'VT323', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
 /* Bento Tables for Relay Data */
 .bento-table {
   width: 100%;
@@ -267,4 +332,106 @@ body, html {
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
+}
+
+/* --- Colored Pass/Fail Pills for Authentication --- */
+.pass-pill {
+  background-color: #28a745; 
+  color: #FFFFFF;
+  border-color: #1e7e34;
+}
+.fail-pill {
+  background-color: #dc3545; 
+  color: #FFFFFF;
+  border-color: #bd2130;
+}
+.neutral-pill {
+  background-color: #6c757d; 
+  color: #FFFFFF;
+  border-color: #5a6268;
+}
+
+/* --- Global Horizontal Scroll Utility --- */
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap; /* Forces text to stay on one line unless explicitly told to wrap */
+  padding-bottom: 4px; /* Space for scrollbar */
+}
+.scroll-x::-webkit-scrollbar {
+  height: 6px;
+}
+.scroll-x::-webkit-scrollbar-track {
+  background: #E2E4E9; 
+  border-radius: 8px;
+}
+.scroll-x::-webkit-scrollbar-thumb {
+  background: #999; 
+  border-radius: 8px;
+}
+
+/* Fix for header content boxes to allow both multi-line AND horizontal scroll if cut off */
+.header-content-box.scroll-x {
+  white-space: pre; /* Retains formatting but allows horizontal scroll for long strings */
+  overflow-y: auto;
+  max-height: 6.5em; /* Approximately 4 lines */
+}
+
+/* --- Custom Relay Chart (Replicating Image Details) --- */
+.relay-chart-container {
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-bottom: 1px solid #343a40;
+  padding: 20px 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.chart-grid {
+  position: absolute;
+  top: 0; left: 40%; right: 0; bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.grid-line {
+  width: 1px;
+  height: 100%;
+  background-color: #ced4da;
+}
+.chart-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.chart-label {
+  width: 40%;
+  text-align: right;
+  padding-right: 12px;
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  color: #333;
+}
+.chart-bar-area {
+  width: 60%;
+  border-left: 1px solid #343a40;
+  padding-left: 2px;
+  min-height: 32px;
+}
+.chart-bar {
+  height: 32px;
+  background-color: #f39c12; /* Matches orange bars */
+  border: 1px solid #d68910;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  transition: width 0.5s ease-out;
+}
+.bar-value {
+  color: #000;
+  font-size: 0.8rem;
+  font-family: monospace;
+  font-weight: bold;
 }
