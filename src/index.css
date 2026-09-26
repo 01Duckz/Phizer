@@ -1,45 +1,37 @@
-/* Import Google Fonts for the handwriting and digital clock aesthetics */
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=VT323&display=swap');
 
 body, html {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  /* Handwriting font as the primary fallback for regular text */
   font-family: 'Comic Neue', cursive, sans-serif;
   color: #2B2B2B;
 }
 
-/* Background Wrappers */
 .app-wrapper {
   min-height: 100vh;
   transition: background 0.3s ease;
 }
 
-/* Home Page Background using the requested image */
 .home-bg {
   background-image: url('./image_2a7d5d.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
-/* Results Page Background (Light gray to match the widget reference) */
 .results-bg {
   background-color: #E2E4E9;
 }
 
-/* =========================================
-   BENTO BOX / WIDGET STYLES
-   ========================================= */
-
 .bento-card {
-  background-color: #F4F5F7; /* Off-white */
-  border: 3px solid #2B2B2B; /* Thick dark border */
-  border-radius: 24px;       /* Highly rounded corners */
-  box-shadow: 6px 6px 0px #2B2B2B; /* Solid drop shadow */
+  background-color: #F4F5F7; 
+  border: 3px solid #2B2B2B; 
+  border-radius: 24px;       
+  box-shadow: 6px 6px 0px #2B2B2B; 
   overflow: hidden;
 }
 
@@ -50,11 +42,15 @@ body, html {
 
 .main-scanner-card {
   max-width: 420px;
-  background-color: rgba(244, 245, 247, 0.95); /* Slight transparency over the pixel art */
-  backdrop-filter: blur(4px);
+  background-color: rgba(244, 245, 247, 0.96); 
+  backdrop-filter: blur(6px);
 }
 
-/* Typography */
+.info-rectangle {
+  background-color: rgba(244, 245, 247, 0.96); 
+  backdrop-filter: blur(6px);
+}
+
 .bento-header {
   font-family: 'Comic Neue', cursive;
   font-size: 2.5rem;
@@ -74,7 +70,6 @@ body, html {
   font-weight: 700;
 }
 
-/* Digital Font Elements */
 .digital-text {
   font-family: 'VT323', monospace;
   letter-spacing: 2px;
@@ -87,10 +82,9 @@ body, html {
 
 .digital-clock-widget {
   background-color: #F4F5F7;
-  border-radius: 30px; /* Extra rounded like a pill */
+  border-radius: 30px; 
 }
 
-/* Buttons */
 .bento-btn {
   background-color: #F4F5F7;
   color: #2B2B2B;
@@ -105,7 +99,6 @@ body, html {
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
 }
 
@@ -126,6 +119,7 @@ body, html {
   height: 50px;
   padding: 0;
   font-size: 1.5rem;
+  justify-content: center;
 }
 
 .btn-icon {
@@ -133,7 +127,26 @@ body, html {
   font-size: 1.2rem;
 }
 
-/* Inputs */
+.help-icon {
+  background: #2B2B2B;
+  color: #F4F5F7;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-icon:hover {
+  transform: scale(1.1);
+}
+
 .bento-input {
   border: 3px solid #2B2B2B;
   border-radius: 16px;
@@ -149,7 +162,6 @@ body, html {
   border-color: #2B2B2B;
 }
 
-/* Pills */
 .bento-pill {
   border: 3px solid #2B2B2B;
   border-radius: 30px;
@@ -175,7 +187,12 @@ body, html {
   color: #2B2B2B;
 }
 
-/* Progress Bar (for scanning state) */
+.pointer-hover:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: transform 0.2s;
+}
+
 .bento-progress-bar {
   border: 3px solid #2B2B2B;
   border-radius: 20px;
@@ -201,22 +218,101 @@ body, html {
   100% { transform: scaleX(0); transform-origin: right; }
 }
 
-/* Lists */
 .bento-list-item {
   border: 2px solid #2B2B2B;
   border-radius: 12px;
-  padding: 8px 12px;
+  padding: 10px 14px;
   background-color: #FFFFFF;
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
 }
 
-/* Modal */
+/* Horizontal Scroll Utility */
+.horizontal-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 8px; /* space for scrollbar */
+}
+.horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: #E2E4E9;
+  border-radius: 10px;
+}
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #2B2B2B;
+  border-radius: 10px;
+}
+
+.pixel-mono {
+  font-family: monospace;
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Accordion Dropdown Styles */
+.bento-accordion {
+  border: 2px solid #2B2B2B;
+  border-radius: 12px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+.bento-accordion summary {
+  padding: 12px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #E2E4E9;
+  border-bottom: 2px solid transparent;
+}
+.bento-accordion[open] summary {
+  border-bottom: 2px solid #2B2B2B;
+}
+.accordion-content {
+  padding: 16px;
+  background: #FFFFFF;
+}
+
+/* Relay Stepped Bar Graph */
+.relay-graph-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.relay-hop {
+  display: flex;
+  flex-direction: column;
+}
+.relay-bar {
+  background-color: #2B2B2B;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  min-width: 80px;
+  transition: width 0.5s ease-in-out;
+}
+.relay-hop-badge {
+  color: #FFFFFF;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.relay-detail {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #555;
+  padding-left: 4px;
+}
+
+/* Modals */
 .bento-modal-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(43, 43, 43, 0.7);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -224,6 +320,8 @@ body, html {
 }
 
 .modal-content-bento {
-  max-width: 400px;
+  max-width: 450px;
   width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
 }
