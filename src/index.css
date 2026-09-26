@@ -1,693 +1,169 @@
-/* =========================================================
-   WARM OFF-WHITE / SOFT BROWN THEME
-   Designed for the pixel-art fishing dock background
-   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=VT323&display=swap');
 
+/* --- WARM OFF-WHITE / SOFT BROWN THEME --- */
 :root {
-
-  /* =======================================================
-     BASE
-     ======================================================= */
-
-  /* Keep the background image visible */
   --theme-bg: transparent;
 
-  /* Main panels / cards */
-  --theme-card: rgba(250, 247, 239, 0.92);
+  /* Warm ivory panel that sits naturally over the background */
+  --theme-card: rgba(250, 247, 239, 0.90);
 
-  /* Secondary / nested panels */
-  --theme-card-alt: rgba(244, 239, 229, 0.94);
-
-
-  /* =======================================================
-     TEXT
-     ======================================================= */
-
-  /* Main text */
-  --theme-text: #302821;
-
-  /* Secondary text */
-  --theme-text-muted: #75675C;
-
-  /* Subtle / disabled text */
-  --theme-text-light: #9A8B7D;
-
-  /* Headings */
-  --theme-heading: #49372D;
-
-  /* Links */
-  --theme-link: #79553F;
-
-
-  /* =======================================================
-     BORDERS
-     ======================================================= */
-
-  /* Main border */
+  /* Soft dark brown instead of teal */
   --theme-border: #6B5142;
 
-  /* Softer border */
-  --theme-border-light: #B9A28F;
+  /* Dark warm charcoal-brown for text */
+  --theme-text: #302821;
 
-  /* Very subtle divider */
-  --theme-divider: #D8CABB;
-
-
-  /* =======================================================
-     BUTTONS
-     ======================================================= */
-
-  /* Primary button */
-  --theme-button: #8B624D;
-
-  /* Primary button hover */
-  --theme-button-hover: #76513F;
-
-  /* Primary button active / pressed */
-  --theme-button-active: #634333;
-
-  /* Primary button text */
-  --theme-button-text: #FFF9F0;
-
-  /* Secondary button */
-  --theme-button-secondary: #E5D8C9;
-
-  /* Secondary button hover */
-  --theme-button-secondary-hover: #D7C6B5;
-
-  /* Secondary button text */
-  --theme-button-secondary-text: #4A382D;
-
-
-  /* =======================================================
-     STATUS COLORS
-     ======================================================= */
-
-  /* ---------------- SUCCESS ---------------- */
-
+  /* Success: muted earthy green */
   --theme-pass: #5F7958;
 
-  --theme-pass-bg: rgba(95, 121, 88, 0.14);
-
-  --theme-pass-border: #809875;
-
-
-  /* ---------------- FAILURE ---------------- */
-
+  /* Failure: warm muted red */
   --theme-fail: #A65345;
 
-  --theme-fail-bg: rgba(166, 83, 69, 0.12);
-
-  --theme-fail-border: #C47A6B;
-
-
-  /* ---------------- WARNING ---------------- */
-
-  --theme-warning: #A8783F;
-
-  --theme-warning-bg: rgba(168, 120, 63, 0.13);
-
-  --theme-warning-border: #C59A61;
-
-
-  /* ---------------- NEUTRAL ---------------- */
-
+  /* Neutral: warm taupe */
   --theme-neutral: #8A7768;
 
-  --theme-neutral-bg: rgba(138, 119, 104, 0.12);
-
-  --theme-neutral-border: #AA998A;
-
-
-  /* =======================================================
-     INPUTS
-     ======================================================= */
-
-  /* Input background */
-  --theme-input-bg: rgba(255, 252, 246, 0.88);
-
-  /* Input border */
-  --theme-input-border: #B9A28F;
-
-  /* Input text */
-  --theme-input-text: #302821;
-
-  /* Placeholder text */
-  --theme-input-placeholder: #9A8B7D;
-
-  /* Focus border */
-  --theme-input-focus: #8B624D;
-
-  /* Focus background */
-  --theme-input-focus-bg: #FFFDF8;
-
-
-  /* =======================================================
-     CHECKBOXES / TOGGLES / SELECTION
-     ======================================================= */
-
-  /* Main accent */
-  --theme-accent: #8B624D;
-
-  /* Accent hover */
-  --theme-accent-hover: #76513F;
-
-  /* Selected item background */
-  --theme-selection: rgba(139, 98, 77, 0.20);
-
-
-  /* =======================================================
-     PROGRESS BARS
-     ======================================================= */
-
-  /* Empty progress bar */
+  /* Progress/background bars */
   --theme-bar-bg: rgba(107, 81, 66, 0.16);
 
-  /* Filled progress bar */
+  /* Warm brown fill */
   --theme-bar-fill: #8B624D;
-
-  /* Success progress */
-  --theme-bar-success: #687F5D;
-
-
-  /* =======================================================
-     CARDS / CONTAINERS
-     ======================================================= */
-
-  /* Soft card shadow */
-  --theme-shadow:
-    0 4px 14px rgba(48, 40, 33, 0.16);
-
-  /* Modal / popup shadow */
-  --theme-shadow-heavy:
-    0 8px 24px rgba(48, 40, 33, 0.22);
-
-  /* Light inner highlight */
-  --theme-highlight:
-    rgba(255, 255, 255, 0.55);
-
-
-  /* =======================================================
-     TABLES
-     ======================================================= */
-
-  /* Table header */
-  --theme-table-header: #E8DDD0;
-
-  /* Normal row */
-  --theme-table-row: rgba(255, 252, 246, 0.70);
-
-  /* Alternating row */
-  --theme-table-row-alt: rgba(235, 225, 214, 0.45);
-
-  /* Hovered row */
-  --theme-table-hover: rgba(139, 98, 77, 0.10);
-
-
-  /* =======================================================
-     BADGES / TAGS
-     ======================================================= */
-
-  --theme-badge-bg: #E5D8C9;
-
-  --theme-badge-text: #5A4436;
-
-  --theme-badge-border: #B9A28F;
-
-
-  /* =======================================================
-     SCROLLBARS
-     ======================================================= */
-
-  --theme-scrollbar-track:
-    rgba(107, 81, 66, 0.10);
-
-  --theme-scrollbar-thumb:
-    #B9A28F;
-
-  --theme-scrollbar-thumb-hover:
-    #8B624D;
-
-
-  /* =======================================================
-     MODALS / OVERLAYS
-     ======================================================= */
-
-  --theme-overlay:
-    rgba(48, 40, 33, 0.28);
-
-
-  /* =======================================================
-     CODE / SPECIAL AREAS
-     ======================================================= */
-
-  --theme-code-bg: #EDE5DA;
-
-  --theme-code-text: #513D31;
-
-  --theme-code-border: #CBB9A6;
-
-
-  /* =======================================================
-     DISABLED ELEMENTS
-     ======================================================= */
-
-  --theme-disabled-bg: #E5DED5;
-
-  --theme-disabled-text: #A49A91;
-
-  --theme-disabled-border: #CFC5BA;
-
-
-  /* =======================================================
-     EXTRA COLORS
-     ======================================================= */
-
-  /* Light cream */
-  --theme-cream: #FAF7EF;
-
-  /* Bright warm white */
-  --theme-white: #FFFDF8;
-
-  /* Light beige */
-  --theme-beige: #E8DDD0;
-
-  /* Medium beige */
-  --theme-tan: #CBB9A6;
-
-  /* Warm wood */
-  --theme-wood: #8B624D;
-
-  /* Dark wood */
-  --theme-wood-dark: #6B5142;
-
-  /* Deep brown */
-  --theme-brown-dark: #49372D;
-
-  /* Muted green */
-  --theme-green: #5F7958;
-
-  /* Muted terracotta */
-  --theme-terracotta: #A65345;
-
-  /* Warm ochre */
-  --theme-ochre: #A8783F;
 }
 
 
-/* =========================================================
-   OPTIONAL GLOBAL STYLING
-   These rules make the variables actually look cohesive
-   when applied to a normal UI.
-   ========================================================= */
-
-* {
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   BODY
-   ========================================================= */
-
-body {
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Comic Neue', cursive, sans-serif;
   color: var(--theme-text);
-  background: var(--theme-bg);
+  
+  /* Animated site background */
+  background: url('/assets/images/cat_fishing.gif') no-repeat center center fixed; 
+  background-size: cover;
 }
 
-
-/* =========================================================
-   TEXT
-   ========================================================= */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--theme-heading);
+.app-wrapper {
+  min-height: 100vh;
+  transition: background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background: url('/assets/images/cat_fishing.gif') no-repeat center center fixed;
+  background-size: cover;
+  background-color: transparent !important;
 }
 
-p {
+/* Base Bento Card - SEMI-TRANSPARENT WITH BLUR */
+.bento-card {
+  background: var(--theme-card); 
+  border: 3px solid var(--theme-border); 
+  border-radius: 20px;       
+  box-shadow: 6px 6px 0px var(--theme-border); 
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.safe-card { background: var(--theme-pass); color: #FFFFFF; border-color: #1A4331; box-shadow: 6px 6px 0px #1A4331; backdrop-filter: none; }
+.fail-card { background: var(--theme-fail); color: #FFFFFF; border-color: #712424; box-shadow: 6px 6px 0px #712424; backdrop-filter: none; }
+.dark-card { background: var(--theme-border); color: #FFF; backdrop-filter: none; }
+
+.main-scanner-card { background: rgba(184, 222, 216, 0.94); }
+
+/* Typography */
+.bento-header { font-family: 'Comic Neue', cursive; font-size: 2.8rem; font-weight: 700; color: var(--theme-text); }
+.handwriting-text { font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 1.2rem; }
+.handwriting-list { font-family: 'Comic Neue', cursive; font-size: 1.1rem; font-weight: 700; }
+.digital-text { font-family: 'VT323', monospace; letter-spacing: 2px; }
+.large-digital { font-size: 2.5rem; line-height: 1; }
+.pixel-mono { font-family: monospace; font-size: 0.9rem; color: #111; }
+
+.digital-clock-widget { background: var(--theme-card); border-radius: 30px; }
+
+/* Buttons */
+.bento-btn {
+  background-color: #E6F2F0; /* Soft bright teal/white for buttons */
   color: var(--theme-text);
+  border: 3px solid var(--theme-border);
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-weight: 700;
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px var(--theme-border);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+.bento-btn:hover { background-color: #FFFFFF; }
+.bento-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--theme-border); }
+.bento-btn-sm { padding: 6px 16px; font-size: 1rem; border-radius: 12px; }
+.bento-btn-icon { border-radius: 20px; width: 45px; height: 45px; padding: 0; font-size: 1.3rem; justify-content: center; }
 
-small,
-.muted,
-.text-muted {
-  color: var(--theme-text-muted);
+.about-fab-btn { position: fixed; bottom: 25px; right: 25px; z-index: 100; border-radius: 30px; padding: 10px 20px; background: rgba(230, 242, 240, 0.9); backdrop-filter: blur(4px); }
+
+.help-icon { background: var(--theme-border); color: #FFF; border: none; border-radius: 50%; width: 28px; height: 28px; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.help-icon:hover { transform: scale(1.1); }
+
+/* Inputs and Pills */
+.bento-input { border: 3px solid var(--theme-border); border-radius: 16px; background-color: rgba(255, 255, 255, 0.7); padding: 12px; font-family: 'Comic Neue', cursive; font-weight: 700; }
+.bento-input:focus { outline: none; box-shadow: none; border-color: var(--theme-border); background-color: #FFF; }
+
+.bento-pill { border: 3px solid var(--theme-border); border-radius: 30px; padding: 4px 16px; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; display: inline-block; }
+.dark-pill { background-color: var(--theme-border); color: #FFF; }
+.outline-pill { background-color: transparent; color: var(--theme-text); }
+.pass-pill { background-color: var(--theme-pass); color: #FFFFFF; border-color: #1A4331; }
+.fail-pill { background-color: var(--theme-fail); color: #FFFFFF; border-color: #712424; }
+.neutral-pill { background-color: var(--theme-neutral); color: #FFFFFF; border-color: #2D4C50; }
+
+.pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; box-shadow: 2px 2px 0px rgba(0,0,0,0.15); }
+
+/* Progress Bar */
+.bento-progress-bar { border: 3px solid var(--theme-border); border-radius: 20px; height: 28px; width: 90%; margin: 0 auto; padding: 2px; background: rgba(255,255,255,0.6); }
+.bento-progress-fill { background-color: var(--theme-border); height: 100%; border-radius: 14px; }
+
+/* Content Blocks & Lists */
+.bento-list-item { border: 2px solid var(--theme-border); border-radius: 12px; padding: 12px 16px; font-family: 'Comic Neue', cursive; }
+
+.scroll-x { overflow-x: auto; overflow-y: hidden; white-space: nowrap; padding-bottom: 6px; }
+.scroll-x::-webkit-scrollbar { height: 6px; }
+.scroll-x::-webkit-scrollbar-track { background: transparent; }
+.scroll-x::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
+
+/* Fixed Dropdown Evidence Box (max 3 lines) */
+.header-content-box {
+  background-color: rgba(255, 255, 255, 0.4); 
+  border: 1px dashed rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+  white-space: pre-wrap; 
+  overflow-y: auto;
+  max-height: 4.5em; /* Approximately 3 lines depending on font size */
+  margin-top: 8px;
+  word-wrap: break-word;
 }
-
-a {
-  color: var(--theme-link);
-}
-
-a:hover {
-  color: var(--theme-button-hover);
-}
-
-
-/* =========================================================
-   PANELS / CARDS
-   ========================================================= */
-
-.card,
-.panel,
-.modal,
-.dropdown,
-.container-card {
-  background: var(--theme-card);
-  border: 1px solid var(--theme-border-light);
-  color: var(--theme-text);
-
-  box-shadow: var(--theme-shadow);
-}
-
-
-/* Nested cards */
-
-.card-inner,
-.panel-inner,
-.sub-panel {
-  background: var(--theme-card-alt);
-  border: 1px solid var(--theme-divider);
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-button,
-.btn,
-.button {
-  background: var(--theme-button);
-  color: var(--theme-button-text);
-
-  border: 1px solid var(--theme-border);
-
-  box-shadow:
-    0 2px 5px rgba(48, 40, 33, 0.14);
-
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.1s ease;
-}
-
-
-button:hover,
-.btn:hover,
-.button:hover {
-  background: var(--theme-button-hover);
-}
-
-
-button:active,
-.btn:active,
-.button:active {
-  background: var(--theme-button-active);
-  transform: translateY(1px);
-}
-
-
-/* Secondary buttons */
-
-button.secondary,
-.btn-secondary,
-.button-secondary {
-  background: var(--theme-button-secondary);
-  color: var(--theme-button-secondary-text);
-
-  border-color: var(--theme-border-light);
-}
-
-
-button.secondary:hover,
-.btn-secondary:hover,
-.button-secondary:hover {
-  background: var(--theme-button-secondary-hover);
-}
-
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-input,
-textarea,
-select {
-  background: var(--theme-input-bg);
-  color: var(--theme-input-text);
-
-  border: 1px solid var(--theme-input-border);
-
-  outline: none;
-}
-
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--theme-input-placeholder);
-}
-
-
-input:focus,
-textarea:focus,
-select:focus {
-  background: var(--theme-input-focus-bg);
-
-  border-color: var(--theme-input-focus);
-
-  box-shadow:
-    0 0 0 2px rgba(139, 98, 77, 0.14);
-}
-
-
-/* =========================================================
-   DIVIDERS
-   ========================================================= */
-
-hr,
-.divider {
-  border: 0;
-  border-top: 1px solid var(--theme-divider);
-}
-
-
-/* =========================================================
-   SUCCESS
-   ========================================================= */
-
-.success,
-.pass,
-.status-success {
-  color: var(--theme-pass);
-  background: var(--theme-pass-bg);
-  border-color: var(--theme-pass-border);
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-.error,
-.fail,
-.status-error {
-  color: var(--theme-fail);
-  background: var(--theme-fail-bg);
-  border-color: var(--theme-fail-border);
-}
-
-
-/* =========================================================
-   WARNING
-   ========================================================= */
-
-.warning,
-.status-warning {
-  color: var(--theme-warning);
-  background: var(--theme-warning-bg);
-  border-color: var(--theme-warning-border);
-}
-
-
-/* =========================================================
-   NEUTRAL
-   ========================================================= */
-
-.neutral,
-.status-neutral {
-  color: var(--theme-neutral);
-  background: var(--theme-neutral-bg);
-  border-color: var(--theme-neutral-border);
-}
-
-
-/* =========================================================
-   PROGRESS BAR
-   ========================================================= */
-
-.progress,
-.progress-bar-container {
-  background: var(--theme-bar-bg);
-}
-
-
-.progress-bar,
-.progress-fill {
-  background: var(--theme-bar-fill);
-}
-
-
-.progress-bar.success,
-.progress-fill.success {
-  background: var(--theme-bar-success);
-}
-
-
-/* =========================================================
-   TABLES
-   ========================================================= */
-
-table {
-  color: var(--theme-text);
-  border-color: var(--theme-divider);
-}
-
-
-thead,
-.table-header {
-  background: var(--theme-table-header);
-  color: var(--theme-heading);
-}
-
-
-tbody tr {
-  background: var(--theme-table-row);
-}
-
-
-tbody tr:nth-child(even) {
-  background: var(--theme-table-row-alt);
-}
-
-
-tbody tr:hover {
-  background: var(--theme-table-hover);
-}
-
-
-/* =========================================================
-   BADGES
-   ========================================================= */
-
-.badge,
-.tag {
-  background: var(--theme-badge-bg);
-  color: var(--theme-badge-text);
-
-  border: 1px solid var(--theme-badge-border);
-}
-
-
-/* Success badge */
-
-.badge-success {
-  background: var(--theme-pass-bg);
-  color: var(--theme-pass);
-  border-color: var(--theme-pass-border);
-}
-
-
-/* Error badge */
-
-.badge-error {
-  background: var(--theme-fail-bg);
-  color: var(--theme-fail);
-  border-color: var(--theme-fail-border);
-}
-
-
-/* =========================================================
-   CODE BLOCKS
-   ========================================================= */
-
-code,
-pre {
-  background: var(--theme-code-bg);
-  color: var(--theme-code-text);
-  border: 1px solid var(--theme-code-border);
-}
-
-
-/* =========================================================
-   MODAL
-   ========================================================= */
-
-.modal-backdrop,
-.overlay {
-  background: var(--theme-overlay);
-}
-
-
-.modal {
-  box-shadow: var(--theme-shadow-heavy);
-}
-
-
-/* =========================================================
-   DISABLED
-   ========================================================= */
-
-button:disabled,
-.btn:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled,
-.disabled {
-  background: var(--theme-disabled-bg);
-  color: var(--theme-disabled-text);
-
-  border-color: var(--theme-disabled-border);
-
-  cursor: not-allowed;
-}
-
-
-/* =========================================================
-   SELECTION
-   ========================================================= */
-
-::selection {
-  background: var(--theme-selection);
-  color: var(--theme-text);
-}
-
-
-/* =========================================================
-   SCROLLBAR
-   ========================================================= */
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-
-::-webkit-scrollbar-track {
-  background: var(--theme-scrollbar-track);
-}
-
-
-::-webkit-scrollbar-thumb {
-  background: var(--theme-scrollbar-thumb);
-  border-radius: 5px;
-}
-
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-scrollbar-thumb-hover);
-}
+.header-content-box::-webkit-scrollbar { width: 6px; }
+.header-content-box::-webkit-scrollbar-track { background: transparent; }
+.header-content-box::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
+
+/* Details/Summary cleanup for the dropdowns */
+details summary::-webkit-details-marker { display: none; }
+details summary { list-style: none; }
+
+/* Relay Visual Bar Graph */
+.relay-bar-wrapper { background-color: var(--theme-bar-bg); border-radius: 8px; width: 100%; overflow: hidden; }
+.relay-bar-fill { background-color: var(--theme-bar-fill); border-radius: 8px; }
+
+/* Bento Tables */
+.bento-table { width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden; border: 2px solid var(--theme-border); }
+.bento-table th, .bento-table td { border: 1px solid var(--theme-border); padding: 12px 16px; text-align: left; }
+.bento-table th { background-color: rgba(255, 255, 255, 0.5); font-family: 'Comic Neue', cursive; font-weight: 700; border-bottom: 2px solid var(--theme-border); }
+.bento-table td { background-color: rgba(255, 255, 255, 0.25); }
+
+/* Modals */
+.bento-modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 54, 65, 0.8); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content-bento { max-width: 500px; width: 90%; max-height: 85vh; overflow-y: auto; background: rgba(220, 240, 235, 0.98); }
+.modal-content-bento::-webkit-scrollbar { width: 6px; }
+.modal-content-bento::-webkit-scrollbar-track { background: transparent; }
+.modal-content-bento::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
