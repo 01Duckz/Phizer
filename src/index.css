@@ -63,11 +63,11 @@ body, html {
   -webkit-backdrop-filter: blur(8px);
 }
 
-.safe-card { background: var(--theme-pass); color: #FFFFFF; border-color: #1A4331; box-shadow: 6px 6px 0px #1A4331; backdrop-filter: none; }
-.fail-card { background: var(--theme-fail); color: #FFFFFF; border-color: #712424; box-shadow: 6px 6px 0px #712424; backdrop-filter: none; }
+.safe-card { background: var(--theme-pass); color: #FFFFFF; border-color: #425941; box-shadow: 6px 6px 0px #425941; backdrop-filter: none; }
+.fail-card { background: var(--theme-fail); color: #FFFFFF; border-color: #7a3d31; box-shadow: 6px 6px 0px #7a3d31; backdrop-filter: none; }
 .dark-card { background: var(--theme-border); color: #FFF; backdrop-filter: none; }
 
-.main-scanner-card { background: rgba(184, 222, 216, 0.94); }
+.main-scanner-card { background: rgba(250, 247, 239, 0.94); }
 
 /* Typography */
 .bento-header { font-family: 'Comic Neue', cursive; font-size: 2.8rem; font-weight: 700; color: var(--theme-text); }
@@ -81,7 +81,7 @@ body, html {
 
 /* Buttons */
 .bento-btn {
-  background-color: #E6F2F0; /* Soft bright teal/white for buttons */
+  background-color: #F5F0E8;
   color: var(--theme-text);
   border: 3px solid var(--theme-border);
   border-radius: 16px;
@@ -96,12 +96,12 @@ body, html {
   align-items: center;
   gap: 8px;
 }
-.bento-btn:hover { background-color: #FFFFFF; }
+.bento-btn:hover { background-color: #FFF; }
 .bento-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--theme-border); }
 .bento-btn-sm { padding: 6px 16px; font-size: 1rem; border-radius: 12px; }
 .bento-btn-icon { border-radius: 20px; width: 45px; height: 45px; padding: 0; font-size: 1.3rem; justify-content: center; }
 
-.about-fab-btn { position: fixed; bottom: 25px; right: 25px; z-index: 100; border-radius: 30px; padding: 10px 20px; background: rgba(230, 242, 240, 0.9); backdrop-filter: blur(4px); }
+.about-fab-btn { position: fixed; bottom: 25px; right: 25px; z-index: 100; border-radius: 30px; padding: 10px 20px; background: rgba(245, 240, 232, 0.9); backdrop-filter: blur(4px); }
 
 .help-icon { background: var(--theme-border); color: #FFF; border: none; border-radius: 50%; width: 28px; height: 28px; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .help-icon:hover { transform: scale(1.1); }
@@ -113,9 +113,9 @@ body, html {
 .bento-pill { border: 3px solid var(--theme-border); border-radius: 30px; padding: 4px 16px; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; display: inline-block; }
 .dark-pill { background-color: var(--theme-border); color: #FFF; }
 .outline-pill { background-color: transparent; color: var(--theme-text); }
-.pass-pill { background-color: var(--theme-pass); color: #FFFFFF; border-color: #1A4331; }
-.fail-pill { background-color: var(--theme-fail); color: #FFFFFF; border-color: #712424; }
-.neutral-pill { background-color: var(--theme-neutral); color: #FFFFFF; border-color: #2D4C50; }
+.pass-pill { background-color: var(--theme-pass); color: #FFFFFF; border-color: #425941; }
+.fail-pill { background-color: var(--theme-fail); color: #FFFFFF; border-color: #7a3d31; }
+.neutral-pill { background-color: var(--theme-neutral); color: #FFFFFF; border-color: #665548; }
 
 .pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; box-shadow: 2px 2px 0px rgba(0,0,0,0.15); }
 
@@ -162,8 +162,8 @@ details summary { list-style: none; }
 .bento-table td { background-color: rgba(255, 255, 255, 0.25); }
 
 /* Modals */
-.bento-modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 54, 65, 0.8); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.modal-content-bento { max-width: 500px; width: 90%; max-height: 85vh; overflow-y: auto; background: rgba(220, 240, 235, 0.98); }
+.bento-modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(48, 40, 33, 0.72); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content-bento { max-width: 500px; width: 90%; max-height: 85vh; overflow-y: auto; background: rgba(250, 247, 239, 0.98); }
 .modal-content-bento::-webkit-scrollbar { width: 6px; }
 .modal-content-bento::-webkit-scrollbar-track { background: transparent; }
 .modal-content-bento::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
