@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=VT323&display=swap');
 
-/* --- EARTHY THEME COLORS (Based on image_88f3d3.png) --- */
+/* --- EARTHY & SOFTER THEME COLORS --- */
 :root {
-  --theme-bg: #D5C7B7;
-  --theme-card: #EAE0D3;
-  --theme-border: #33251E;
-  --theme-text: #2B221E;
-  --theme-pass: #4B6842;
-  --theme-fail: #9E4535;
-  --theme-neutral: #6E5D4F;
-  --theme-bar-bg: #CFC2B3;
-  --theme-bar-fill: #82634C;
+  --theme-bg: #C3B5A6;          /* Softer, cooler beige/taupe for background fallback */
+  --theme-card: rgba(242, 235, 223, 0.90); /* Transparent soft beige for cards */
+  --theme-border: #3A2E28;      /* Slightly softer dark brown */
+  --theme-text: #362C26;        /* Muted dark brown for easier reading */
+  --theme-pass: #5A7A50;        /* Muted sage/forest green */
+  --theme-fail: #AB5344;        /* Muted rusty red */
+  --theme-neutral: #7B6D62;     /* Medium taupe */
+  --theme-bar-bg: rgba(60, 48, 40, 0.15); /* Transparent track */
+  --theme-bar-fill: #735F52;    /* Soft wood tone */
 }
 
 body, html {
@@ -24,70 +24,54 @@ body, html {
 .app-wrapper {
   min-height: 100vh;
   transition: background 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Background handlers */
 .home-bg {
+  /* Ensure the pixel-art image is applied to the root element in index.css if not already inline */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
-
 .results-bg {
   background-color: var(--theme-bg);
 }
 
 /* Base Bento Card */
 .bento-card {
-  background-color: var(--theme-card);
-  border: 3px solid var(--theme-border);
-  border-radius: 24px;
-  box-shadow: 6px 6px 0px var(--theme-border);
+  background: var(--theme-card); 
+  border: 3px solid var(--theme-border); 
+  border-radius: 20px;       
+  box-shadow: 6px 6px 0px var(--theme-border); 
   overflow: hidden;
+  backdrop-filter: blur(4px); /* Gently blurs the background behind the card */
 }
 
-.dark-card {
-  background-color: var(--theme-border);
-  color: var(--theme-card);
-}
+/* Remove default card background for special states */
+.safe-card { background: var(--theme-pass); color: #FFFFFF; border-color: #384F30; box-shadow: 6px 6px 0px #384F30; backdrop-filter: none; }
+.fail-card { background: var(--theme-fail); color: #FFFFFF; border-color: #632D23; box-shadow: 6px 6px 0px #632D23; backdrop-filter: none; }
+.dark-card { background: var(--theme-border); color: #FFF; backdrop-filter: none; }
 
-.safe-card {
-  background-color: var(--theme-pass);
-  color: #FFFFFF;
-  border-color: #2F4328;
-}
-
-.fail-card {
-  background-color: var(--theme-fail);
-  border-color: #5C271D;
-}
-
-.main-scanner-card, .info-rectangle {
-  background-color: rgba(234, 224, 211, 0.96);
-  backdrop-filter: blur(6px);
+.main-scanner-card {
+  background: rgba(242, 235, 223, 0.96); 
+  backdrop-filter: blur(8px);
 }
 
 /* Typography */
-.bento-header {
-  font-family: 'Comic Neue', cursive;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--theme-text);
-}
+.bento-header { font-family: 'Comic Neue', cursive; font-size: 2.8rem; font-weight: 700; color: var(--theme-text); }
 .handwriting-text { font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 1.2rem; }
 .handwriting-list { font-family: 'Comic Neue', cursive; font-size: 1.1rem; font-weight: 700; }
 .digital-text { font-family: 'VT323', monospace; letter-spacing: 2px; }
 .large-digital { font-size: 2.5rem; line-height: 1; }
-.pixel-mono { font-family: monospace; font-size: 0.85rem; color: #444; }
+.pixel-mono { font-family: monospace; font-size: 0.85rem; color: #333; }
 
-.digital-clock-widget {
-  background-color: var(--theme-card);
-  border-radius: 30px;
-}
+.digital-clock-widget { background: var(--theme-card); border-radius: 30px; }
 
 /* Buttons */
 .bento-btn {
-  background-color: var(--theme-card);
+  background-color: #FAFAFA;
   color: var(--theme-text);
   border: 3px solid var(--theme-border);
   border-radius: 16px;
@@ -97,19 +81,31 @@ body, html {
   font-size: 1.2rem;
   cursor: pointer;
   box-shadow: 4px 4px 0px var(--theme-border);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
   display: flex;
   align-items: center;
   gap: 8px;
 }
+.bento-btn:hover { background-color: #FFFFFF; }
 .bento-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--theme-border); }
 .bento-btn-sm { padding: 6px 16px; font-size: 1rem; border-radius: 12px; }
-.bento-btn-icon { border-radius: 20px; width: 50px; height: 50px; padding: 0; font-size: 1.5rem; justify-content: center; }
-.btn-icon { font-family: 'VT323', monospace; font-size: 1.2rem; }
+.bento-btn-icon { border-radius: 20px; width: 45px; height: 45px; padding: 0; font-size: 1.3rem; justify-content: center; }
+
+/* About Floating Button */
+.about-fab-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 100;
+  border-radius: 30px;
+  padding: 10px 20px;
+  background: var(--theme-card);
+  backdrop-filter: blur(4px);
+}
 
 .help-icon {
   background: var(--theme-border);
-  color: var(--theme-card);
+  color: #FFF;
   border: none;
   border-radius: 50%;
   width: 28px;
@@ -141,31 +137,29 @@ body, html {
   padding: 4px 16px;
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
+  display: inline-block;
 }
-.dark-pill { background-color: var(--theme-border); color: var(--theme-card); }
-.light-pill { background-color: var(--theme-card); color: var(--theme-text); }
+.dark-pill { background-color: var(--theme-border); color: #FFF; }
 .outline-pill { background-color: transparent; color: var(--theme-text); }
-.pass-pill { background-color: var(--theme-pass); color: #FFFFFF; border-color: #2F4328; }
-.fail-pill { background-color: var(--theme-fail); color: #FFFFFF; border-color: #5C271D; }
-.neutral-pill { background-color: var(--theme-neutral); color: #FFFFFF; border-color: #4A3E34; }
+.pass-pill { background-color: var(--theme-pass); color: #FFFFFF; border-color: #384F30; }
+.fail-pill { background-color: var(--theme-fail); color: #FFFFFF; border-color: #632D23; }
+.neutral-pill { background-color: var(--theme-neutral); color: #FFFFFF; border-color: #51473E; }
 
-.pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; }
+.pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
 
 /* Progress Bar */
-.bento-progress-bar { border: 3px solid var(--theme-border); border-radius: 20px; height: 24px; width: 80%; margin: 0 auto; padding: 2px; background: #FFFFFF; }
-.bento-progress-fill { background-color: var(--theme-border); height: 100%; border-radius: 14px; width: 100%; animation: scan 2s infinite linear; transform-origin: left; }
-@keyframes scan { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
+.bento-progress-bar { border: 3px solid var(--theme-border); border-radius: 20px; height: 28px; width: 90%; margin: 0 auto; padding: 2px; background: #FFFFFF; }
+.bento-progress-fill { background-color: var(--theme-border); height: 100%; border-radius: 14px; }
 
 /* Content Blocks & Lists */
 .bento-list-item {
   border: 2px solid var(--theme-border);
   border-radius: 12px;
-  padding: 10px 14px;
+  padding: 12px 16px;
   background-color: rgba(255, 255, 255, 0.4);
   font-family: 'Comic Neue', cursive;
-  font-weight: 700;
 }
 
 /* Scroll-X and Header Boxes */
@@ -176,114 +170,33 @@ body, html {
   padding-bottom: 6px;
 }
 .scroll-x::-webkit-scrollbar { height: 6px; }
-.scroll-x::-webkit-scrollbar-track { background: var(--theme-card); border-radius: 8px; }
+.scroll-x::-webkit-scrollbar-track { background: transparent; }
 .scroll-x::-webkit-scrollbar-thumb { background: var(--theme-neutral); border-radius: 8px; }
 
 .header-content-box {
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 1px solid var(--theme-neutral);
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px dashed var(--theme-neutral);
   border-radius: 8px;
-  padding: 8px;
-  white-space: pre;
+  padding: 10px;
+  white-space: pre; 
   overflow-y: auto;
-  max-height: 6.5em;
+  max-height: 6.5em; 
+  margin-top: 8px;
 }
 .header-content-box::-webkit-scrollbar { width: 6px; }
-.header-content-box::-webkit-scrollbar-track { background: var(--theme-card); border-radius: 8px; }
+.header-content-box::-webkit-scrollbar-track { background: transparent; }
 .header-content-box::-webkit-scrollbar-thumb { background: var(--theme-neutral); border-radius: 8px; }
 
-/* Accordion Dropdown */
-.bento-accordion {
-  border: 2px solid var(--theme-border);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.4);
-  overflow: hidden;
-}
-.bento-accordion summary {
-  padding: 12px 16px;
-  font-weight: 700;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.5);
-  border-bottom: 2px solid transparent;
-}
-.bento-accordion[open] summary { border-bottom: 2px solid var(--theme-border); }
-.accordion-content { padding: 16px; }
-
 /* Relay Visual Bar Graph */
-.relay-graph-container {
-  display: flex;
-  flex-direction: column;
-}
-.relay-bar {
-  background-color: var(--theme-bar-fill);
-  height: 32px;
+.relay-bar-wrapper {
+  background-color: var(--theme-bar-bg);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  padding-left: 12px;
-  min-width: 80px;
-}
-.relay-hop-badge { color: #FFFFFF; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 0.9rem; }
-
-.relay-chart-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 12px 8px 6px;
-  background: var(--theme-bar-bg);
-  border: 2px solid var(--theme-border);
-  border-radius: 16px;
+  width: 100%;
   overflow: hidden;
 }
-.chart-grid {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  pointer-events: none;
-}
-.grid-line {
-  border-left: 1px solid rgba(43, 43, 43, 0.15);
-}
-.chart-row {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 210px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-}
-.chart-label {
-  font-family: 'Comic Neue', cursive;
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--theme-text);
-  white-space: nowrap;
-}
-.chart-bar-area {
-  position: relative;
-  background: rgba(255, 255, 255, 0.35);
-  border: 2px solid var(--theme-border);
-  border-radius: 12px;
-  height: 28px;
-  overflow: hidden;
-}
-.chart-bar {
-  height: 100%;
-  min-width: 52px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 10px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, var(--theme-bar-fill) 0%, #a38162 100%);
-}
-.bar-value {
-  color: #FFFFFF;
-  font-family: 'VT323', monospace;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
+.relay-bar-fill {
+  background-color: var(--theme-bar-fill);
+  border-radius: 8px;
 }
 
 /* Bento Tables for Relay Data */
@@ -300,60 +213,30 @@ body, html {
   text-align: left;
 }
 .bento-table th {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.7);
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
   border-bottom: 2px solid var(--theme-border);
 }
-.bento-table td { background-color: rgba(255, 255, 255, 0.3); }
-
-/* Badges for table */
-.badge {
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-family: 'Comic Neue', cursive;
-  font-weight: 700;
-  font-size: 0.85rem;
-  border: 2px solid var(--theme-border);
-}
-.bg-danger { background-color: var(--theme-fail); color: white; }
-.bg-success { background-color: var(--theme-pass); color: white; }
+.bento-table td { background-color: rgba(255, 255, 255, 0.4); }
 
 /* Modals */
 .bento-modal-backdrop {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(43, 34, 30, 0.7);
-  backdrop-filter: blur(3px);
+  background: rgba(58, 46, 40, 0.75);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 .modal-content-bento {
-  max-width: 450px;
+  max-width: 500px;
   width: 90%;
-  max-height: 80vh;
+  max-height: 85vh;
   overflow-y: auto;
+  background: rgba(245, 240, 230, 0.98);
 }
-
-.app-wrapper {
-  min-height: 100vh;
-  background-image: url('/public/assets/images/cat_fishing.gif');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
-
-/* --- Additional layout helpers from the requested update --- */
-.relay-bar-wrapper {
-  background-color: var(--theme-bar-bg);
-  border-radius: 8px;
-  width: 100%;
-  overflow: hidden;
-}
-.relay-bar-fill {
-  background-color: var(--theme-bar-fill);
-  border-radius: 8px;
-  transition: width 0.5s ease;
-}
+.modal-content-bento::-webkit-scrollbar { width: 6px; }
+.modal-content-bento::-webkit-scrollbar-track { background: transparent; }
+.modal-content-bento::-webkit-scrollbar-thumb { background: var(--theme-neutral); border-radius: 8px; }
