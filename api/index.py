@@ -37,6 +37,9 @@ def check_virustotal(domain: str) -> dict:
                 stats = attributes.get("last_analysis_stats", {})
                 results = attributes.get("last_analysis_results", {})
                 
+                # Fetch total vendor count to fix the "2/0" bug
+                total_vendors = len(results.keys())
+                
                 malicious_details = [
                     {"vendor": vendor, "result": res.get("result", "Malicious")}
                     for vendor, res in results.items()
@@ -46,6 +49,7 @@ def check_virustotal(domain: str) -> dict:
                 return {
                     "malicious": stats.get("malicious", 0),
                     "harmless": stats.get("harmless", 0),
+                    "total": total_vendors, 
                     "status": "scored",
                     "details": malicious_details
                 }
@@ -75,13 +79,26 @@ async def analyze_eml(file: UploadFile = File(...)):
         # 1. Extract All Headers
         all_headers = [{"name": key, "value": str(val)} for key, val in msg.items()]
 
-        # 2. Extract Relay Information (Received Headers)
+        # 2. Extract Relay Information (Fixed Parsing logic)
         received_headers = msg.get_all("Received") or []
         relays = []
         for i, header in enumerate(reversed(received_headers)):
+            h_str = str(header).replace("\n", " ").replace("\r", " ").replace("\t", " ").strip()
+            
+            # Use Regex to dynamically extract relay node details
+            from_match = re.search(r"from\s+([^\s]+)", h_str, re.IGNORECASE)
+            by_match = re.search(r"by\s+([^\s;]+)", h_str, re.IGNORECASE)
+            with_match = re.search(r"with\s+([^\s;]+)", h_str, re.IGNORECASE)
+            date_part = h_str.split(";")[-1].strip() if ";" in h_str else "-"
+
             relays.append({
                 "hop": i + 1,
-                "detail": str(header).strip().replace("\n", " ")
+                "from": from_match.group(1) if from_match else "Unknown",
+                "by": by_match.group(1) if by_match else "Unknown",
+                "with": with_match.group(1) if with_match else "-",
+                "time": date_part,
+                "delay": "-", # Delay math requires timezone calc, leaving blank to keep it secure/stable
+                "raw": h_str
             })
 
         # 3. Authentication & Spoofing
@@ -126,7 +143,7 @@ async def analyze_eml(file: UploadFile = File(...)):
                     is_spoofed = True
                     evidence.append(f"Domain Mismatch: 'From' domain ({from_domain}) differs from 'Return-Path' ({return_domain}).")
 
-        # 4. Extract URLs & VirusTotal
+        # 4. Extract URLs
         body = ""
         if msg.is_multipart():
             for part in msg.walk():

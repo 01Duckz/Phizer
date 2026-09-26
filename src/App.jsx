@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './index.css';
 
 const EDUCATIONAL_CONTENT = {
@@ -36,7 +36,6 @@ const getAuthExplanation = (protocol, status) => {
   return 'Status undetermined.';
 };
 
-// Aggressive extraction to catch any shape the backend might return
 const extractRelayField = (relay, keys) => {
   if (!relay) return '-';
   for (let key of keys) {
@@ -77,7 +76,10 @@ function App() {
 
     try {
       const response = await fetch('/api/index', { method: 'POST', body: formData });
-      if (!response.ok) throw new Error('Failed to scan file');
+      if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.detail || 'Failed to scan file');
+      }
       const data = await response.json();
       
       clearInterval(progressInterval);
@@ -169,7 +171,6 @@ function App() {
   const relaysList = report?.relays || [];
   const isSpoofed = report?.security_checks?.spoofing_flagged;
 
-  // Find exact headers for proof breakdown
   const authResultsHeader = headersList.find(h => h.name.toLowerCase() === 'authentication-results')?.value;
   const receivedSpfHeader = headersList.find(h => h.name.toLowerCase() === 'received-spf')?.value;
   const dkimSigHeader = headersList.find(h => h.name.toLowerCase() === 'dkim-signature')?.value;
@@ -184,7 +185,7 @@ function App() {
   );
 
   return (
-    <div className={`app-wrapper ${viewState !== 'results' ? 'home-bg' : 'results-bg'}`}>
+    <div className="app-wrapper">
       
       {viewState !== 'results' && (
         <button onClick={openAboutModal} className="bento-btn about-fab-btn">
@@ -249,7 +250,7 @@ function App() {
 
             <div className="row g-4">
               
-              {/* SECTION 1: SECURITY STATUS & AUTHENTICATION */}
+              {/* Security Status Card */}
               <div className="col-md-5">
                 <div className={`bento-card h-100 p-4 text-center d-flex flex-column justify-content-center ${!isSpoofed ? 'safe-card' : 'fail-card'}`}>
                   <div className="handwriting-text mb-2 text-white opacity-75">Security Status</div>
@@ -267,6 +268,7 @@ function App() {
                 </div>
               </div>
 
+              {/* Authentication Records Card */}
               <div className="col-md-7">
                 <div className="bento-card h-100 p-4">
                   <span className="handwriting-text d-block mb-3">Authentication Records</span>
@@ -290,7 +292,7 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 1.5: IMPORTANT HEADERS */}
+              {/* Email Details Card */}
               <div className="col-12">
                 <div className="bento-card p-4">
                   <span className="handwriting-text d-block mb-3 fs-4"><i className="bi bi-envelope-paper"></i> Important Email Details</span>
@@ -307,7 +309,7 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 2: EMAIL RELAYS WITH AGGRESSIVE FALLBACKS */}
+              {/* Email Relay Hops Card */}
               <div className="col-12">
                 <div className="bento-card p-4">
                   <div className="d-flex align-items-center gap-2 mb-4">
@@ -362,7 +364,6 @@ function App() {
                           <thead>
                             <tr>
                               <th>Hop</th>
-                              <th>Delay</th>
                               <th>From (Source)</th>
                               <th>By (Destination)</th>
                               <th>With / Protocol</th>
@@ -371,17 +372,14 @@ function App() {
                           </thead>
                           <tbody>
                             {relaysList.map((relay, idx) => {
-                              let rDelay, rFrom, rBy, rWith, rTime;
+                              let rFrom, rBy, rWith, rTime;
                               
-                              // Fallback if backend just dumps the string directly instead of an object
                               if (typeof relay === 'string') {
-                                rDelay = '-';
                                 rFrom = relay; 
                                 rBy = '-';
                                 rWith = '-';
                                 rTime = '-';
                               } else {
-                                rDelay = extractRelayField(relay, ['delay', 'Delay', 'delay_in_seconds']);
                                 rFrom = extractRelayField(relay, ['from', 'From', 'src', 'Src', 'sender', 'Sender', 'received_from', 'raw', 'string', 'header']);
                                 rBy = extractRelayField(relay, ['by', 'By', 'receiver', 'Receiver', 'dest', 'destination']);
                                 rWith = extractRelayField(relay, ['with', 'With', 'protocol', 'Protocol', 'via']);
@@ -391,7 +389,6 @@ function App() {
                               return (
                                 <tr key={idx}>
                                   <td><strong>{idx + 1}</strong></td>
-                                  <td className="pixel-mono fw-bold">{rDelay !== '-' ? `${rDelay}s` : '-'}</td>
                                   <td className="pixel-mono scroll-x fw-bold" style={{ maxWidth: '250px' }}>{rFrom}</td>
                                   <td className="pixel-mono scroll-x fw-bold" style={{ maxWidth: '200px' }}>{rBy}</td>
                                   <td className="pixel-mono">{rWith}</td>
@@ -407,7 +404,7 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 3: SPLIT DASHBOARDS */}
+              {/* Analysis Breakdown with Dropdowns */}
               <div className="col-md-6">
                 <div className="bento-card h-100 p-4">
                   <span className="handwriting-text d-block mb-3 fs-4"><i className="bi bi-card-checklist"></i> Analysis Breakdown</span>
@@ -424,39 +421,40 @@ function App() {
                     <div className="bento-list-item bg-white bg-opacity-25">
                       <strong className="d-block mb-1"><i className="bi bi-shield-check"></i> SPF Analysis ({auth.spf || 'NONE'})</strong>
                       <p className="mb-2 fs-6">{getAuthExplanation('SPF', auth.spf)}</p>
-                      <div className="mt-3 pt-2 border-top border-dark border-opacity-25">
-                        <span className="small opacity-75 fw-bold d-block mb-1"><i className="bi bi-search"></i> Header Evidence:</span>
-                        <div className="header-content-box pixel-mono scroll-x fw-bold" style={{ fontSize: '0.8rem' }}>
+                      <details className="mt-3 pt-2 border-top border-dark border-opacity-25">
+                        <summary className="small opacity-75 fw-bold mb-1 pointer-hover text-decoration-underline"><i className="bi bi-search"></i> Show Header Evidence</summary>
+                        <div className="header-content-box pixel-mono fw-bold">
                           {auth.spf_basis || receivedSpfHeader || authResultsHeader || 'No explicit SPF header evidence found.'}
                         </div>
-                      </div>
+                      </details>
                     </div>
 
                     <div className="bento-list-item bg-white bg-opacity-25">
                       <strong className="d-block mb-1"><i className="bi bi-key"></i> DKIM Analysis ({auth.dkim || 'NONE'})</strong>
                       <p className="mb-2 fs-6">{getAuthExplanation('DKIM', auth.dkim)}</p>
-                      <div className="mt-3 pt-2 border-top border-dark border-opacity-25">
-                        <span className="small opacity-75 fw-bold d-block mb-1"><i className="bi bi-search"></i> Header Evidence:</span>
-                        <div className="header-content-box pixel-mono scroll-x fw-bold" style={{ fontSize: '0.8rem' }}>
+                      <details className="mt-3 pt-2 border-top border-dark border-opacity-25">
+                        <summary className="small opacity-75 fw-bold mb-1 pointer-hover text-decoration-underline"><i className="bi bi-search"></i> Show Header Evidence</summary>
+                        <div className="header-content-box pixel-mono fw-bold">
                           {auth.dkim_basis || dkimSigHeader || authResultsHeader || 'No explicit DKIM header evidence found.'}
                         </div>
-                      </div>
+                      </details>
                     </div>
 
                     <div className="bento-list-item bg-white bg-opacity-25">
                       <strong className="d-block mb-1"><i className="bi bi-diagram-3"></i> DMARC Analysis ({auth.dmarc || 'NONE'})</strong>
                       <p className="mb-2 fs-6">{getAuthExplanation('DMARC', auth.dmarc)}</p>
-                      <div className="mt-3 pt-2 border-top border-dark border-opacity-25">
-                        <span className="small opacity-75 fw-bold d-block mb-1"><i className="bi bi-search"></i> Header Evidence:</span>
-                        <div className="header-content-box pixel-mono scroll-x fw-bold" style={{ fontSize: '0.8rem' }}>
+                      <details className="mt-3 pt-2 border-top border-dark border-opacity-25">
+                        <summary className="small opacity-75 fw-bold mb-1 pointer-hover text-decoration-underline"><i className="bi bi-search"></i> Show Header Evidence</summary>
+                        <div className="header-content-box pixel-mono fw-bold">
                           {auth.dmarc_basis || authResultsHeader || 'No explicit DMARC header evidence found.'}
                         </div>
-                      </div>
+                      </details>
                     </div>
                   </div>
                 </div>
               </div>
 
+              {/* Embedded Links Card */}
               <div className="col-md-6">
                 <div className="bento-card h-100 p-4">
                   <span className="handwriting-text d-block mb-3 fs-4"><i className="bi bi-link-45deg"></i> Embedded Links Analysis</span>
@@ -492,7 +490,7 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 4: REMAINING RAW HEADERS */}
+              {/* Raw Headers Card */}
               <div className="col-12">
                 <div className="bento-card p-4">
                   <div className="d-flex align-items-center gap-2 mb-4">
@@ -519,7 +517,7 @@ function App() {
           </div>
         )}
 
-        {/* MODAL SYSTEM */}
+        {/* Dynamic Educational / Link Modal */}
         {modalState.isOpen && (
           <div className="bento-modal-backdrop" onClick={() => setModalState({ ...modalState, isOpen: false })}>
             <div className="bento-card p-4 modal-content-bento" onClick={(e) => e.stopPropagation()}>
