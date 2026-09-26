@@ -41,6 +41,24 @@ body, html {
   color: #F4F5F7;
 }
 
+/* Add this below your .dark-card rule */
+.safe-card {
+  background-color: #28a745; /* Vibrant safe green */
+  color: #FFFFFF;
+  border-color: #1e7e34;
+}
+
+/* Updated Table rule to allow smooth badge styling */
+.badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.bg-danger { background-color: #dc3545; color: white; }
+.bg-success { background-color: #28a745; color: white; }
+
 .main-scanner-card, .info-rectangle {
   background-color: rgba(244, 245, 247, 0.96); 
   backdrop-filter: blur(6px);
@@ -239,4 +257,14 @@ body, html {
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
+}
+
+.app-wrapper {
+  min-height: 100vh;
+  /* The forward slash automatically points to the public folder */
+  background-image: url('/public/assets/images/cat_fishing.gif'); 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
