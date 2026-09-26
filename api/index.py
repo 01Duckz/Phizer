@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import email
 from email import policy
+from email.utils import parsedate_to_datetime
 import re
 from urllib.parse import urlparse
 import urllib.request
@@ -136,6 +137,7 @@ async def analyze_eml(file: UploadFile = File(...)):
         # 2. Extract Relay Information (Fixed Parsing logic)
         received_headers = msg.get_all("Received") or []
         relays = []
+        prev_time = None
         for i, header in enumerate(reversed(received_headers)):
             h_str = str(header).replace("\n", " ").replace("\r", " ").replace("\t", " ").strip()
             
@@ -145,13 +147,32 @@ async def analyze_eml(file: UploadFile = File(...)):
             with_match = re.search(r"with\s+([^\s;]+)", h_str, re.IGNORECASE)
             date_part = h_str.split(";")[-1].strip() if ";" in h_str else "-"
 
+            # Parse this hop's timestamp so we can diff it against the
+            # previous hop and get a real elapsed time, instead of a
+            # hardcoded placeholder.
+            parsed_time = None
+            if date_part != "-":
+                try:
+                    parsed_time = parsedate_to_datetime(date_part)
+                except (TypeError, ValueError):
+                    parsed_time = None
+
+            delay_seconds = 0
+            if parsed_time is not None and prev_time is not None:
+                # Clamp negatives to 0: clock skew between mail servers can
+                # otherwise produce a "negative" delay, which doesn't make
+                # sense to show on a bar chart.
+                delay_seconds = max(int((parsed_time - prev_time).total_seconds()), 0)
+            if parsed_time is not None:
+                prev_time = parsed_time
+
             relays.append({
                 "hop": i + 1,
                 "from": from_match.group(1) if from_match else "Unknown",
                 "by": by_match.group(1) if by_match else "Unknown",
                 "with": with_match.group(1) if with_match else "-",
                 "time": date_part,
-                "delay": "-", # Delay math requires timezone calc, leaving blank to keep it secure/stable
+                "delay": delay_seconds,
                 "raw": h_str
             })
 

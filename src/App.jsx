@@ -197,6 +197,9 @@ function App() {
   const headersList = report?.headers || [];
   const relaysList = report?.relays || [];
   const isSpoofed = report?.security_checks?.spoofing_flagged;
+  const maliciousUrls = urlList.filter(item => (item?.vt_reputation?.malicious || 0) > 0);
+  const hasMaliciousLinks = maliciousUrls.length > 0;
+  const isCompromised = isSpoofed || hasMaliciousLinks;
 
   const authResultsHeader = headersList.find(h => h.name.toLowerCase() === 'authentication-results')?.value;
   const receivedSpfHeader = headersList.find(h => h.name.toLowerCase() === 'received-spf')?.value;
@@ -295,12 +298,19 @@ function App() {
               
               {/* Security Status Card */}
               <div className="col-md-5">
-                <div className={`bento-card h-100 p-4 text-center d-flex flex-column justify-content-center ${!isSpoofed ? 'safe-card' : 'fail-card'}`}>
+                <div className={`bento-card h-100 p-4 text-center d-flex flex-column justify-content-center ${!isCompromised ? 'safe-card' : 'fail-card'}`}>
                   <div className="handwriting-text mb-2 text-white opacity-75">Security Status</div>
-                  {isSpoofed ? (
+                  {isCompromised ? (
                     <>
                       <div className="digital-text large-digital text-white mb-3">FAILED</div>
-                      <div className="bento-pill mx-auto bg-white text-dark border-0"><i className="bi bi-shield-x text-danger"></i> Spoofing Detected</div>
+                      <div className="d-flex flex-column gap-2 align-items-center">
+                        {isSpoofed && (
+                          <div className="bento-pill bg-white text-dark border-0"><i className="bi bi-shield-x text-danger"></i> Spoofing Detected</div>
+                        )}
+                        {hasMaliciousLinks && (
+                          <div className="bento-pill bg-white text-dark border-0"><i className="bi bi-bug-fill text-danger"></i> {maliciousUrls.length} Malicious Link{maliciousUrls.length > 1 ? 's' : ''} Found</div>
+                        )}
+                      </div>
                     </>
                   ) : (
                     <>
@@ -403,7 +413,14 @@ function App() {
                       </div>
 
                       <div className="table-responsive scroll-x">
-                        <table className="bento-table" style={{ minWidth: '900px' }}>
+                        <table className="bento-table" style={{ minWidth: '900px', tableLayout: 'fixed' }}>
+                          <colgroup>
+                            <col style={{ width: '6%' }} />
+                            <col style={{ width: '30%' }} />
+                            <col style={{ width: '30%' }} />
+                            <col style={{ width: '19%' }} />
+                            <col style={{ width: '15%' }} />
+                          </colgroup>
                           <thead>
                             <tr>
                               <th>Hop</th>
@@ -432,10 +449,10 @@ function App() {
                               return (
                                 <tr key={idx}>
                                   <td><strong>{idx + 1}</strong></td>
-                                  <td className="pixel-mono scroll-x fw-bold" style={{ maxWidth: '250px' }}>{rFrom}</td>
-                                  <td className="pixel-mono scroll-x fw-bold" style={{ maxWidth: '200px' }}>{rBy}</td>
-                                  <td className="pixel-mono">{rWith}</td>
-                                  <td className="pixel-mono text-nowrap">{rTime}</td>
+                                  <td className="pixel-mono scroll-x fw-bold">{rFrom}</td>
+                                  <td className="pixel-mono scroll-x fw-bold">{rBy}</td>
+                                  <td className="pixel-mono scroll-x">{rWith}</td>
+                                  <td className="pixel-mono scroll-x text-nowrap">{rTime}</td>
                                 </tr>
                               );
                             })}
@@ -460,6 +477,15 @@ function App() {
                         <span style={{ fontSize: '0.95rem' }}>{e}</span>
                       </div>
                     ))}
+
+                    {hasMaliciousLinks && (
+                      <div className="bento-list-item fail-pill text-white border-0 py-3">
+                        <strong className="d-block mb-1"><i className="bi bi-bug-fill"></i> Malicious Link Evidence</strong>
+                        <span style={{ fontSize: '0.95rem' }}>
+                          {maliciousUrls.length} embedded link{maliciousUrls.length > 1 ? 's were' : ' was'} flagged as malicious by VirusTotal (see Embedded Links Analysis below).
+                        </span>
+                      </div>
+                    )}
 
                     <div className="bento-list-item bg-white bg-opacity-25">
                       <strong className="d-block mb-1"><i className="bi bi-shield-check"></i> SPF Analysis ({auth.spf || 'NONE'})</strong>
