@@ -27,6 +27,7 @@ body, html {
   background-color: #E2E4E9;
 }
 
+/* Base Bento Card */
 .bento-card {
   background-color: #F4F5F7; 
   border: 3px solid #2B2B2B; 
@@ -40,51 +41,30 @@ body, html {
   color: #F4F5F7;
 }
 
-.main-scanner-card {
-  max-width: 420px;
+.main-scanner-card, .info-rectangle {
   background-color: rgba(244, 245, 247, 0.96); 
   backdrop-filter: blur(6px);
 }
 
-.info-rectangle {
-  background-color: rgba(244, 245, 247, 0.96); 
-  backdrop-filter: blur(6px);
-}
-
+/* Typography */
 .bento-header {
   font-family: 'Comic Neue', cursive;
   font-size: 2.5rem;
   font-weight: 700;
   color: #2B2B2B;
 }
-
-.handwriting-text {
-  font-family: 'Comic Neue', cursive;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-
-.handwriting-list {
-  font-family: 'Comic Neue', cursive;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.digital-text {
-  font-family: 'VT323', monospace;
-  letter-spacing: 2px;
-}
-
-.large-digital {
-  font-size: 2.5rem;
-  line-height: 1;
-}
+.handwriting-text { font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 1.2rem; }
+.handwriting-list { font-family: 'Comic Neue', cursive; font-size: 1.1rem; font-weight: 700; }
+.digital-text { font-family: 'VT323', monospace; letter-spacing: 2px; }
+.large-digital { font-size: 2.5rem; line-height: 1; }
+.pixel-mono { font-family: monospace; font-size: 0.85rem; color: #444; }
 
 .digital-clock-widget {
   background-color: #F4F5F7;
   border-radius: 30px; 
 }
 
+/* Buttons */
 .bento-btn {
   background-color: #F4F5F7;
   color: #2B2B2B;
@@ -101,31 +81,10 @@ body, html {
   align-items: center;
   gap: 8px;
 }
-
-.bento-btn:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px #2B2B2B;
-}
-
-.bento-btn-sm {
-  padding: 6px 16px;
-  font-size: 1rem;
-  border-radius: 12px;
-}
-
-.bento-btn-icon {
-  border-radius: 20px;
-  width: 50px;
-  height: 50px;
-  padding: 0;
-  font-size: 1.5rem;
-  justify-content: center;
-}
-
-.btn-icon {
-  font-family: 'VT323', monospace;
-  font-size: 1.2rem;
-}
+.bento-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #2B2B2B; }
+.bento-btn-sm { padding: 6px 16px; font-size: 1rem; border-radius: 12px; }
+.bento-btn-icon { border-radius: 20px; width: 50px; height: 50px; padding: 0; font-size: 1.5rem; justify-content: center; }
+.btn-icon { font-family: 'VT323', monospace; font-size: 1.2rem; }
 
 .help-icon {
   background: #2B2B2B;
@@ -142,11 +101,9 @@ body, html {
   align-items: center;
   justify-content: center;
 }
+.help-icon:hover { transform: scale(1.1); }
 
-.help-icon:hover {
-  transform: scale(1.1);
-}
-
+/* Inputs and Pills */
 .bento-input {
   border: 3px solid #2B2B2B;
   border-radius: 16px;
@@ -155,12 +112,7 @@ body, html {
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
 }
-
-.bento-input:focus {
-  outline: none;
-  box-shadow: none;
-  border-color: #2B2B2B;
-}
+.bento-input:focus { outline: none; box-shadow: none; border-color: #2B2B2B; }
 
 .bento-pill {
   border: 3px solid #2B2B2B;
@@ -171,53 +123,18 @@ body, html {
   font-size: 0.9rem;
   text-transform: uppercase;
 }
+.dark-pill { background-color: #2B2B2B; color: #F4F5F7; }
+.light-pill { background-color: #F4F5F7; color: #2B2B2B; }
+.outline-pill { background-color: transparent; color: #2B2B2B; }
 
-.dark-pill {
-  background-color: #2B2B2B;
-  color: #F4F5F7;
-}
+.pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; }
 
-.light-pill {
-  background-color: #F4F5F7;
-  color: #2B2B2B;
-}
+/* Progress Bar */
+.bento-progress-bar { border: 3px solid #2B2B2B; border-radius: 20px; height: 24px; width: 80%; margin: 0 auto; padding: 2px; background: #FFFFFF; }
+.bento-progress-fill { background-color: #2B2B2B; height: 100%; border-radius: 14px; width: 100%; animation: scan 2s infinite linear; transform-origin: left; }
+@keyframes scan { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
 
-.outline-pill {
-  background-color: transparent;
-  color: #2B2B2B;
-}
-
-.pointer-hover:hover {
-  cursor: pointer;
-  transform: scale(1.02);
-  transition: transform 0.2s;
-}
-
-.bento-progress-bar {
-  border: 3px solid #2B2B2B;
-  border-radius: 20px;
-  height: 24px;
-  width: 80%;
-  margin: 0 auto;
-  padding: 2px;
-  background: #FFFFFF;
-}
-
-.bento-progress-fill {
-  background-color: #2B2B2B;
-  height: 100%;
-  border-radius: 14px;
-  width: 100%;
-  animation: scan 2s infinite linear;
-  transform-origin: left;
-}
-
-@keyframes scan {
-  0% { transform: scaleX(0); }
-  50% { transform: scaleX(1); }
-  100% { transform: scaleX(0); transform-origin: right; }
-}
-
+/* Content Blocks & Lists */
 .bento-list-item {
   border: 2px solid #2B2B2B;
   border-radius: 12px;
@@ -227,32 +144,33 @@ body, html {
   font-weight: 700;
 }
 
+/* 1-4 Lines Scrolling Box for Raw Headers */
+.header-content-box {
+  background-color: #F4F5F7;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  padding: 8px;
+  max-height: 5.5em; /* Approximately 4 lines of text */
+  overflow-y: auto;
+  white-space: pre-wrap; /* Allows text to wrap naturally */
+  word-wrap: break-word; /* Prevents long unbreakable strings from overflowing */
+}
+/* Scrollbar styling for header boxes */
+.header-content-box::-webkit-scrollbar { width: 6px; }
+.header-content-box::-webkit-scrollbar-track { background: #E2E4E9; border-radius: 8px; }
+.header-content-box::-webkit-scrollbar-thumb { background: #999; border-radius: 8px; }
+
 /* Horizontal Scroll Utility */
 .horizontal-scroll {
   overflow-x: auto;
   white-space: nowrap;
-  padding-bottom: 8px; /* space for scrollbar */
+  padding-bottom: 8px;
 }
-.horizontal-scroll::-webkit-scrollbar {
-  height: 8px;
-}
-.horizontal-scroll::-webkit-scrollbar-track {
-  background: #E2E4E9;
-  border-radius: 10px;
-}
-.horizontal-scroll::-webkit-scrollbar-thumb {
-  background: #2B2B2B;
-  border-radius: 10px;
-}
+.horizontal-scroll::-webkit-scrollbar { height: 8px; }
+.horizontal-scroll::-webkit-scrollbar-track { background: #E2E4E9; border-radius: 10px; }
+.horizontal-scroll::-webkit-scrollbar-thumb { background: #2B2B2B; border-radius: 10px; }
 
-.pixel-mono {
-  font-family: monospace;
-  font-weight: normal;
-  font-size: 0.9rem;
-  color: #444;
-}
-
-/* Accordion Dropdown Styles */
+/* Accordion Dropdown */
 .bento-accordion {
   border: 2px solid #2B2B2B;
   border-radius: 12px;
@@ -266,21 +184,11 @@ body, html {
   background: #E2E4E9;
   border-bottom: 2px solid transparent;
 }
-.bento-accordion[open] summary {
-  border-bottom: 2px solid #2B2B2B;
-}
-.accordion-content {
-  padding: 16px;
-  background: #FFFFFF;
-}
+.bento-accordion[open] summary { border-bottom: 2px solid #2B2B2B; }
+.accordion-content { padding: 16px; background: #FFFFFF; }
 
-/* Relay Stepped Bar Graph */
+/* Relay Visual Bar Graph */
 .relay-graph-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.relay-hop {
   display: flex;
   flex-direction: column;
 }
@@ -292,25 +200,33 @@ body, html {
   align-items: center;
   padding-left: 12px;
   min-width: 80px;
-  transition: width 0.5s ease-in-out;
 }
-.relay-hop-badge {
-  color: #FFFFFF;
+.relay-hop-badge { color: #FFFFFF; font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 0.9rem; }
+
+/* Bento Tables for Relay Data */
+.bento-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #2B2B2B;
+}
+.bento-table th, .bento-table td {
+  border: 1px solid #2B2B2B;
+  padding: 12px 16px;
+  text-align: left;
+}
+.bento-table th {
+  background-color: #E2E4E9;
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
-  font-size: 0.9rem;
+  border-bottom: 2px solid #2B2B2B;
 }
-.relay-detail {
-  font-family: monospace;
-  font-size: 0.85rem;
-  color: #555;
-  padding-left: 4px;
-}
+.bento-table td { background-color: #FFFFFF; }
 
 /* Modals */
 .bento-modal-backdrop {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(43, 43, 43, 0.7);
   backdrop-filter: blur(3px);
   display: flex;
@@ -318,7 +234,6 @@ body, html {
   justify-content: center;
   z-index: 1000;
 }
-
 .modal-content-bento {
   max-width: 450px;
   width: 90%;
