@@ -1,11 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=VT323&display=swap');
 
+/* --- EARTHY THEME COLORS (Based on image_88f3d3.png) --- */
+:root {
+  --theme-bg: #D5C7B7;
+  --theme-card: #EAE0D3;
+  --theme-border: #33251E;
+  --theme-text: #2B221E;
+  --theme-pass: #4B6842;
+  --theme-fail: #9E4535;
+  --theme-neutral: #6E5D4F;
+  --theme-bar-bg: #CFC2B3;
+  --theme-bar-fill: #82634C;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   min-height: 100vh;
   font-family: 'Comic Neue', cursive, sans-serif;
-  color: #2B2B2B;
+  color: var(--theme-text);
 }
 
 .app-wrapper {
@@ -13,54 +26,44 @@ body, html {
   transition: background 0.3s ease;
 }
 
+/* Background handlers */
 .home-bg {
-  background-image: url('./image_2a7d5d.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  display: flex;
-  align-items: flex-start;
-  overflow-y: auto;
 }
 
 .results-bg {
-  background-color: #E2E4E9;
+  background-color: var(--theme-bg);
 }
 
 /* Base Bento Card */
 .bento-card {
-  background-color: #F4F5F7; 
-  border: 3px solid #2B2B2B; 
-  border-radius: 24px;       
-  box-shadow: 6px 6px 0px #2B2B2B; 
+  background-color: var(--theme-card);
+  border: 3px solid var(--theme-border);
+  border-radius: 24px;
+  box-shadow: 6px 6px 0px var(--theme-border);
   overflow: hidden;
 }
 
 .dark-card {
-  background-color: #2B2B2B;
-  color: #F4F5F7;
+  background-color: var(--theme-border);
+  color: var(--theme-card);
 }
 
-/* Add this below your .dark-card rule */
 .safe-card {
-  background-color: #28a745; /* Vibrant safe green */
+  background-color: var(--theme-pass);
   color: #FFFFFF;
-  border-color: #1e7e34;
+  border-color: #2F4328;
 }
 
-/* Updated Table rule to allow smooth badge styling */
-.badge {
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-family: 'Comic Neue', cursive;
-  font-weight: 700;
-  font-size: 0.85rem;
+.fail-card {
+  background-color: var(--theme-fail);
+  border-color: #5C271D;
 }
-.bg-danger { background-color: #dc3545; color: white; }
-.bg-success { background-color: #28a745; color: white; }
 
 .main-scanner-card, .info-rectangle {
-  background-color: rgba(244, 245, 247, 0.96); 
+  background-color: rgba(234, 224, 211, 0.96);
   backdrop-filter: blur(6px);
 }
 
@@ -69,7 +72,7 @@ body, html {
   font-family: 'Comic Neue', cursive;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2B2B2B;
+  color: var(--theme-text);
 }
 .handwriting-text { font-family: 'Comic Neue', cursive; font-weight: 700; font-size: 1.2rem; }
 .handwriting-list { font-family: 'Comic Neue', cursive; font-size: 1.1rem; font-weight: 700; }
@@ -78,35 +81,35 @@ body, html {
 .pixel-mono { font-family: monospace; font-size: 0.85rem; color: #444; }
 
 .digital-clock-widget {
-  background-color: #F4F5F7;
-  border-radius: 30px; 
+  background-color: var(--theme-card);
+  border-radius: 30px;
 }
 
 /* Buttons */
 .bento-btn {
-  background-color: #F4F5F7;
-  color: #2B2B2B;
-  border: 3px solid #2B2B2B;
+  background-color: var(--theme-card);
+  color: var(--theme-text);
+  border: 3px solid var(--theme-border);
   border-radius: 16px;
   padding: 12px 24px;
   font-weight: 700;
   font-family: 'Comic Neue', cursive;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 4px 4px 0px #2B2B2B;
+  box-shadow: 4px 4px 0px var(--theme-border);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.bento-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #2B2B2B; }
+.bento-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--theme-border); }
 .bento-btn-sm { padding: 6px 16px; font-size: 1rem; border-radius: 12px; }
 .bento-btn-icon { border-radius: 20px; width: 50px; height: 50px; padding: 0; font-size: 1.5rem; justify-content: center; }
 .btn-icon { font-family: 'VT323', monospace; font-size: 1.2rem; }
 
 .help-icon {
-  background: #2B2B2B;
-  color: #F4F5F7;
+  background: var(--theme-border);
+  color: var(--theme-card);
   border: none;
   border-radius: 50%;
   width: 28px;
@@ -123,17 +126,17 @@ body, html {
 
 /* Inputs and Pills */
 .bento-input {
-  border: 3px solid #2B2B2B;
+  border: 3px solid var(--theme-border);
   border-radius: 16px;
   background-color: #FFFFFF;
   padding: 12px;
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
 }
-.bento-input:focus { outline: none; box-shadow: none; border-color: #2B2B2B; }
+.bento-input:focus { outline: none; box-shadow: none; border-color: var(--theme-border); }
 
 .bento-pill {
-  border: 3px solid #2B2B2B;
+  border: 3px solid var(--theme-border);
   border-radius: 30px;
   padding: 4px 16px;
   font-family: 'Comic Neue', cursive;
@@ -141,73 +144,70 @@ body, html {
   font-size: 0.9rem;
   text-transform: uppercase;
 }
-.dark-pill { background-color: #2B2B2B; color: #F4F5F7; }
-.light-pill { background-color: #F4F5F7; color: #2B2B2B; }
-.outline-pill { background-color: transparent; color: #2B2B2B; }
-.pass-pill { background-color: #1f8f5f; color: #ffffff; border-color: #1a7048; }
-.fail-pill { background-color: #d93b3b; color: #ffffff; border-color: #b72626; }
-.neutral-pill { background-color: #e9edf2; color: #2B2B2B; border-color: #2B2B2B; }
-.scroll-x { overflow-x: auto; }
+.dark-pill { background-color: var(--theme-border); color: var(--theme-card); }
+.light-pill { background-color: var(--theme-card); color: var(--theme-text); }
+.outline-pill { background-color: transparent; color: var(--theme-text); }
+.pass-pill { background-color: var(--theme-pass); color: #FFFFFF; border-color: #2F4328; }
+.fail-pill { background-color: var(--theme-fail); color: #FFFFFF; border-color: #5C271D; }
+.neutral-pill { background-color: var(--theme-neutral); color: #FFFFFF; border-color: #4A3E34; }
 
 .pointer-hover:hover { cursor: pointer; transform: scale(1.02); transition: transform 0.2s; }
 
 /* Progress Bar */
-.bento-progress-bar { border: 3px solid #2B2B2B; border-radius: 20px; height: 24px; width: 80%; margin: 0 auto; padding: 2px; background: #FFFFFF; }
-.bento-progress-fill { background-color: #2B2B2B; height: 100%; border-radius: 14px; width: 100%; animation: scan 2s infinite linear; transform-origin: left; }
+.bento-progress-bar { border: 3px solid var(--theme-border); border-radius: 20px; height: 24px; width: 80%; margin: 0 auto; padding: 2px; background: #FFFFFF; }
+.bento-progress-fill { background-color: var(--theme-border); height: 100%; border-radius: 14px; width: 100%; animation: scan 2s infinite linear; transform-origin: left; }
 @keyframes scan { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
 
 /* Content Blocks & Lists */
 .bento-list-item {
-  border: 2px solid #2B2B2B;
+  border: 2px solid var(--theme-border);
   border-radius: 12px;
   padding: 10px 14px;
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.4);
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
 }
 
-/* 1-4 Lines Scrolling Box for Raw Headers */
+/* Scroll-X and Header Boxes */
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 6px;
+}
+.scroll-x::-webkit-scrollbar { height: 6px; }
+.scroll-x::-webkit-scrollbar-track { background: var(--theme-card); border-radius: 8px; }
+.scroll-x::-webkit-scrollbar-thumb { background: var(--theme-neutral); border-radius: 8px; }
+
 .header-content-box {
-  background-color: #F4F5F7;
-  border: 1px solid #CCC;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--theme-neutral);
   border-radius: 8px;
   padding: 8px;
-  max-height: 5.5em; /* Approximately 4 lines of text */
+  white-space: pre;
   overflow-y: auto;
-  white-space: pre-wrap; /* Allows text to wrap naturally */
-  word-wrap: break-word; /* Prevents long unbreakable strings from overflowing */
+  max-height: 6.5em;
 }
-/* Scrollbar styling for header boxes */
 .header-content-box::-webkit-scrollbar { width: 6px; }
-.header-content-box::-webkit-scrollbar-track { background: #E2E4E9; border-radius: 8px; }
-.header-content-box::-webkit-scrollbar-thumb { background: #999; border-radius: 8px; }
-
-/* Horizontal Scroll Utility */
-.horizontal-scroll {
-  overflow-x: auto;
-  white-space: nowrap;
-  padding-bottom: 8px;
-}
-.horizontal-scroll::-webkit-scrollbar { height: 8px; }
-.horizontal-scroll::-webkit-scrollbar-track { background: #E2E4E9; border-radius: 10px; }
-.horizontal-scroll::-webkit-scrollbar-thumb { background: #2B2B2B; border-radius: 10px; }
+.header-content-box::-webkit-scrollbar-track { background: var(--theme-card); border-radius: 8px; }
+.header-content-box::-webkit-scrollbar-thumb { background: var(--theme-neutral); border-radius: 8px; }
 
 /* Accordion Dropdown */
 .bento-accordion {
-  border: 2px solid #2B2B2B;
+  border: 2px solid var(--theme-border);
   border-radius: 12px;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.4);
   overflow: hidden;
 }
 .bento-accordion summary {
   padding: 12px 16px;
   font-weight: 700;
   cursor: pointer;
-  background: #E2E4E9;
+  background: rgba(255, 255, 255, 0.5);
   border-bottom: 2px solid transparent;
 }
-.bento-accordion[open] summary { border-bottom: 2px solid #2B2B2B; }
-.accordion-content { padding: 16px; background: #FFFFFF; }
+.bento-accordion[open] summary { border-bottom: 2px solid var(--theme-border); }
+.accordion-content { padding: 16px; }
 
 /* Relay Visual Bar Graph */
 .relay-graph-container {
@@ -215,7 +215,7 @@ body, html {
   flex-direction: column;
 }
 .relay-bar {
-  background-color: #2B2B2B;
+  background-color: var(--theme-bar-fill);
   height: 32px;
   border-radius: 8px;
   display: flex;
@@ -231,8 +231,8 @@ body, html {
   flex-direction: column;
   gap: 14px;
   padding: 12px 8px 6px;
-  background: #edf0f4;
-  border: 2px solid #2B2B2B;
+  background: var(--theme-bar-bg);
+  border: 2px solid var(--theme-border);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -258,13 +258,13 @@ body, html {
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
   font-size: 0.85rem;
-  color: #2B2B2B;
+  color: var(--theme-text);
   white-space: nowrap;
 }
 .chart-bar-area {
   position: relative;
-  background: #f8f9fb;
-  border: 2px solid #2B2B2B;
+  background: rgba(255, 255, 255, 0.35);
+  border: 2px solid var(--theme-border);
   border-radius: 12px;
   height: 28px;
   overflow: hidden;
@@ -277,10 +277,10 @@ body, html {
   align-items: center;
   padding-right: 10px;
   border-radius: 10px;
-  background: linear-gradient(90deg, #5b6bff 0%, #3db5ff 100%);
+  background: linear-gradient(90deg, var(--theme-bar-fill) 0%, #a38162 100%);
 }
 .bar-value {
-  color: #ffffff;
+  color: #FFFFFF;
   font-family: 'VT323', monospace;
   font-size: 0.9rem;
   letter-spacing: 1px;
@@ -292,25 +292,37 @@ body, html {
   border-collapse: collapse;
   border-radius: 12px;
   overflow: hidden;
-  border: 2px solid #2B2B2B;
+  border: 2px solid var(--theme-border);
 }
 .bento-table th, .bento-table td {
-  border: 1px solid #2B2B2B;
+  border: 1px solid var(--theme-border);
   padding: 12px 16px;
   text-align: left;
 }
 .bento-table th {
-  background-color: #E2E4E9;
+  background-color: rgba(255, 255, 255, 0.6);
   font-family: 'Comic Neue', cursive;
   font-weight: 700;
-  border-bottom: 2px solid #2B2B2B;
+  border-bottom: 2px solid var(--theme-border);
 }
-.bento-table td { background-color: #FFFFFF; }
+.bento-table td { background-color: rgba(255, 255, 255, 0.3); }
+
+/* Badges for table */
+.badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 2px solid var(--theme-border);
+}
+.bg-danger { background-color: var(--theme-fail); color: white; }
+.bg-success { background-color: var(--theme-pass); color: white; }
 
 /* Modals */
 .bento-modal-backdrop {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(43, 43, 43, 0.7);
+  background: rgba(43, 34, 30, 0.7);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
@@ -326,112 +338,22 @@ body, html {
 
 .app-wrapper {
   min-height: 100vh;
-  /* The forward slash automatically points to the public folder */
-  background-image: url('/public/assets/images/cat_fishing.gif'); 
+  background-image: url('/public/assets/images/cat_fishing.gif');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
 
-/* --- Colored Pass/Fail Pills for Authentication --- */
-.pass-pill {
-  background-color: #28a745; 
-  color: #FFFFFF;
-  border-color: #1e7e34;
-}
-.fail-pill {
-  background-color: #dc3545; 
-  color: #FFFFFF;
-  border-color: #bd2130;
-}
-.neutral-pill {
-  background-color: #6c757d; 
-  color: #FFFFFF;
-  border-color: #5a6268;
-}
-
-/* --- Global Horizontal Scroll Utility --- */
-.scroll-x {
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap; /* Forces text to stay on one line unless explicitly told to wrap */
-  padding-bottom: 4px; /* Space for scrollbar */
-}
-.scroll-x::-webkit-scrollbar {
-  height: 6px;
-}
-.scroll-x::-webkit-scrollbar-track {
-  background: #E2E4E9; 
+/* --- Additional layout helpers from the requested update --- */
+.relay-bar-wrapper {
+  background-color: var(--theme-bar-bg);
   border-radius: 8px;
-}
-.scroll-x::-webkit-scrollbar-thumb {
-  background: #999; 
-  border-radius: 8px;
-}
-
-/* Fix for header content boxes to allow both multi-line AND horizontal scroll if cut off */
-.header-content-box.scroll-x {
-  white-space: pre; /* Retains formatting but allows horizontal scroll for long strings */
-  overflow-y: auto;
-  max-height: 6.5em; /* Approximately 4 lines */
-}
-
-/* --- Custom Relay Chart (Replicating Image Details) --- */
-.relay-chart-container {
-  background-color: #e9ecef;
-  border: 1px solid #ced4da;
-  border-bottom: 1px solid #343a40;
-  padding: 20px 0;
-  position: relative;
+  width: 100%;
   overflow: hidden;
+}
+.relay-bar-fill {
+  background-color: var(--theme-bar-fill);
   border-radius: 8px;
-}
-.chart-grid {
-  position: absolute;
-  top: 0; left: 40%; right: 0; bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  pointer-events: none;
-}
-.grid-line {
-  width: 1px;
-  height: 100%;
-  background-color: #ced4da;
-}
-.chart-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  position: relative;
-  z-index: 1;
-}
-.chart-label {
-  width: 40%;
-  text-align: right;
-  padding-right: 12px;
-  font-family: Arial, sans-serif;
-  font-size: 0.85rem;
-  color: #333;
-}
-.chart-bar-area {
-  width: 60%;
-  border-left: 1px solid #343a40;
-  padding-left: 2px;
-  min-height: 32px;
-}
-.chart-bar {
-  height: 32px;
-  background-color: #f39c12; /* Matches orange bars */
-  border: 1px solid #d68910;
-  display: flex;
-  align-items: center;
-  padding-left: 8px;
-  transition: width 0.5s ease-out;
-}
-.bar-value {
-  color: #000;
-  font-size: 0.8rem;
-  font-family: monospace;
-  font-weight: bold;
+  transition: width 0.5s ease;
 }

@@ -69,28 +69,24 @@ function App() {
   const relaysList = report?.relays || [];
   const isSpoofed = report?.security_checks?.spoofing_flagged;
 
-  // Extract important headers
   const importantKeys = ['Subject', 'From', 'To', 'Date'];
   const importantHeaders = importantKeys.map(key => {
     const found = headersList.find(h => h.name.toLowerCase() === key.toLowerCase());
     return { name: key, value: found ? found.value : 'N/A' };
   });
-
-  // Filter out important headers from the bottom raw headers list
   const remainingHeaders = headersList.filter(
     h => !importantKeys.some(key => key.toLowerCase() === h.name.toLowerCase())
   );
 
   return (
     <div className={`app-wrapper ${viewState !== 'results' ? 'home-bg' : 'results-bg'}`}>
-      <div className="container py-5 d-flex flex-column" style={{ maxWidth: '1000px', minHeight: '100vh' }}>
+      <div className="container py-5 d-flex flex-column align-items-center" style={{ maxWidth: '1000px', minHeight: '100vh' }}>
         
-        {/* VIEW 1: UPLOAD SCREEN */}
+        {/* VIEW 1: UPLOAD SCREEN - PERFECTLY CENTERED */}
         {viewState !== 'results' && (
-          <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
+          <div className="d-flex flex-column align-items-center justify-content-center w-100" style={{ flexGrow: 1 }}>
             
-            {/* Centered Scanner */}
-            <div className="bento-card main-scanner-card p-4 text-center w-100 mb-5" style={{ maxWidth: '600px', marginTop: '-10vh' }}>
+            <div className="bento-card main-scanner-card p-4 text-center w-100 mb-5" style={{ maxWidth: '600px' }}>
               <div className="bento-pill dark-pill mx-auto mb-3" style={{ width: 'fit-content' }}>PHIZER OS v2.0</div>
               <h1 className="bento-header mb-4">Email Scanner</h1>
               
@@ -114,7 +110,7 @@ function App() {
 
               {viewState === 'ready' && (
                 <div className="py-3">
-                  <div className="bento-pill dark-pill mx-auto mb-4" style={{ fontSize: '1.2rem', width: 'fit-content' }}>
+                  <div className="bento-pill pass-pill mx-auto mb-4" style={{ fontSize: '1.2rem', width: 'fit-content' }}>
                     <i className="bi bi-check2"></i> COMPLETE
                   </div>
                   <button onClick={() => setViewState('results')} className="bento-btn w-100 justify-content-center">
@@ -122,11 +118,10 @@ function App() {
                   </button>
                 </div>
               )}
-              {error && <div className="bento-card dark-card mt-3 p-2 text-danger"><i className="bi bi-exclamation-triangle"></i> {error}</div>}
+              {error && <div className="bento-card fail-card mt-3 p-2 text-white"><i className="bi bi-exclamation-triangle"></i> {error}</div>}
             </div>
 
-            {/* Pushed down info section */}
-            <div className="bento-card info-rectangle p-4 text-start w-100 mt-5" style={{ maxWidth: '800px' }}>
+            <div className="bento-card info-rectangle p-4 text-start w-100" style={{ maxWidth: '800px' }}>
               <h3 className="handwriting-text fs-4 mb-2"><i className="bi bi-info-circle"></i> What is this website?</h3>
               <p className="mb-4">Phizer is an educational forensic tool designed to help you analyze raw email files (.eml). It breaks down hidden routing data to verify if an email truly came from who it claims to be from, or if it contains hidden malicious links.</p>
               <h3 className="handwriting-text fs-4 mb-2"><i className="bi bi-shield-exclamation"></i> What is Phishing?</h3>
@@ -137,7 +132,7 @@ function App() {
 
         {/* VIEW 2: RESULTS DASHBOARD */}
         {viewState === 'results' && report && (
-          <div className="results-dashboard">
+          <div className="results-dashboard w-100">
             <div className="d-flex justify-content-between align-items-center mb-4 gap-3">
               <button onClick={() => setViewState('upload')} className="bento-btn bento-btn-sm"><i className="bi bi-arrow-left"></i> Back</button>
               <div className="bento-card digital-clock-widget px-4 py-2 m-0 text-center flex-grow-1">
@@ -149,11 +144,11 @@ function App() {
               
               {/* SECTION 1: SECURITY STATUS & AUTHENTICATION */}
               <div className="col-md-5">
-                <div className={`bento-card h-100 p-4 text-center d-flex flex-column justify-content-center ${!isSpoofed ? 'safe-card' : 'dark-card'}`}>
+                <div className={`bento-card h-100 p-4 text-center d-flex flex-column justify-content-center ${!isSpoofed ? 'safe-card' : 'fail-card text-white border-dark'}`}>
                   <div className="handwriting-text mb-2 text-white">Security Status</div>
                   {isSpoofed ? (
                     <>
-                      <div className="digital-text large-digital text-danger mb-2">FAILED</div>
+                      <div className="digital-text large-digital text-white mb-2">FAILED</div>
                       <div className="bento-pill light-pill mx-auto"><i className="bi bi-shield-x"></i> Spoofing Detected</div>
                     </>
                   ) : (
@@ -188,7 +183,7 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 1.5: IMPORTANT HEADERS (Added Scroll-X) */}
+              {/* SECTION 1.5: IMPORTANT HEADERS */}
               <div className="col-12">
                 <div className="bento-card p-4">
                   <span className="handwriting-text d-block mb-3 fs-4"><i className="bi bi-envelope-paper"></i> Important Email Details</span>
@@ -205,7 +200,7 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 2: EMAIL RELAYS (Graph + Enhanced Table) */}
+              {/* SECTION 2: EMAIL RELAYS (Clean Bar Graph + Enhanced Table) */}
               <div className="col-12">
                 <div className="bento-card p-4">
                   <div className="d-flex align-items-center gap-2 mb-4">
@@ -217,34 +212,30 @@ function App() {
                     <div className="text-muted">No relay information found.</div>
                   ) : (
                     <>
-                      <div className="relay-chart-container mb-4">
-                        <div className="chart-grid">
-                          <div className="grid-line"></div>
-                          <div className="grid-line"></div>
-                          <div className="grid-line"></div>
-                          <div className="grid-line"></div>
-                          <div className="grid-line"></div>
-                        </div>
-                        
+                      {/* Clean, readable bar graph with dynamic sizing */}
+                      <div className="bento-list-item p-4 mb-4">
                         {relaysList.map((relay, idx) => {
-                          const delayNum = parseFloat(relay.delay) || 0;
-                          const maxScale = Math.max(...relaysList.map(r => parseFloat(r.delay) || 0), 1.2);
-                          const widthPct = (delayNum / maxScale) * 100;
+                          const delayNum = parseFloat(relay.delay || relay.Delay) || 0;
+                          const maxScale = Math.max(...relaysList.map(r => parseFloat(r.delay || r.Delay) || 0), 1);
+                          const widthPct = Math.max((delayNum / maxScale) * 100, 2); 
+                          
+                          const fromVal = relay.from || relay.From || 'Origin';
+                          const byVal = relay.by || relay.By || 'Destination';
 
-                          let label = '';
-                          if (relay.from && relay.by) label = `From ${relay.from} to ${relay.by}`;
-                          else if (relay.from) label = `From ${relay.from}`;
-                          else if (relay.by) label = `to ${relay.by}`;
-                          else label = `Hop ${relay.hop || idx + 1}`;
+                          // Make bars thinner if there are many hops
+                          const barHeight = relaysList.length > 5 ? '12px' : '20px';
 
                           return (
-                            <div key={idx} className="chart-row">
-                              <div className="chart-label scroll-x" title={label}>{label}</div>
-                              <div className="chart-bar-area">
-                                <div className="chart-bar" style={{ width: `${widthPct}%` }}>
-                                  <span className="bar-value">{delayNum}s</span>
-                                </div>
-                              </div>
+                            <div key={idx} className="d-flex flex-column mb-3">
+                               <div className="d-flex justify-content-between align-items-end mb-1" style={{ fontSize: '0.9rem' }}>
+                                  <strong className="text-truncate me-3" title={`${fromVal} → ${byVal}`}>
+                                    Hop {relay.hop || relay.Hop || idx + 1}: <span className="text-muted">{fromVal}</span> <i className="bi bi-arrow-right mx-1"></i> <span>{byVal}</span>
+                                  </strong>
+                                  <span className="pixel-mono fw-bold">{delayNum}s</span>
+                               </div>
+                               <div className="relay-bar-wrapper">
+                                 <div className="relay-bar-fill" style={{ width: `${widthPct}%`, height: barHeight }}></div>
+                               </div>
                             </div>
                           );
                         })}
@@ -264,23 +255,34 @@ function App() {
                             </tr>
                           </thead>
                           <tbody>
-                            {relaysList.map((relay, idx) => (
-                              <tr key={idx}>
-                                <td><strong>{relay.hop || '-'}</strong></td>
-                                <td className="pixel-mono">{relay.delay || '-'}</td>
-                                <td className="pixel-mono scroll-x" style={{ maxWidth: '200px' }}>{relay.from || '-'}</td>
-                                <td className="pixel-mono scroll-x" style={{ maxWidth: '200px' }}>{relay.by || '-'}</td>
-                                <td className="pixel-mono">{relay.with || '-'}</td>
-                                <td className="pixel-mono">{relay.time || '-'}</td>
-                                <td>
-                                  {relay.blacklist ? (
-                                    <span className="badge bg-danger">Flagged</span>
-                                  ) : (
-                                    <span className="badge bg-success">Clean</span>
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
+                            {relaysList.map((relay, idx) => {
+                              // Added capitalization fallbacks to guarantee backend data renders
+                              const rHop = relay.hop || relay.Hop || idx + 1;
+                              const rDelay = relay.delay || relay.Delay || '-';
+                              const rFrom = relay.from || relay.From || '-';
+                              const rBy = relay.by || relay.By || '-';
+                              const rWith = relay.with || relay.With || '-';
+                              const rTime = relay.time || relay.Time || '-';
+                              const rBl = relay.blacklist || relay.Blacklist;
+
+                              return (
+                                <tr key={idx}>
+                                  <td><strong>{rHop}</strong></td>
+                                  <td className="pixel-mono">{rDelay}</td>
+                                  <td className="pixel-mono scroll-x" style={{ maxWidth: '200px' }}>{rFrom}</td>
+                                  <td className="pixel-mono scroll-x" style={{ maxWidth: '200px' }}>{rBy}</td>
+                                  <td className="pixel-mono">{rWith}</td>
+                                  <td className="pixel-mono">{rTime}</td>
+                                  <td>
+                                    {rBl ? (
+                                      <span className="badge fail-pill">Flagged</span>
+                                    ) : (
+                                      <span className="badge pass-pill">Clean</span>
+                                    )}
+                                  </td>
+                                </tr>
+                              );
+                            })}
                           </tbody>
                         </table>
                       </div>
@@ -289,17 +291,16 @@ function App() {
                 </div>
               </div>
 
-              {/* SECTION 3: SPLIT DASHBOARDS (Breakdown + Basis & Links) */}
+              {/* SECTION 3: SPLIT DASHBOARDS */}
               <div className="col-md-6">
                 <div className="bento-card h-100 p-4">
                   <span className="handwriting-text d-block mb-3 fs-4"><i className="bi bi-card-checklist"></i> Analysis Breakdown</span>
                   <p className="small mb-3">Category basis and reasons for security verification:</p>
                   
                   <div className="d-flex flex-column gap-3">
-                    
                     {isSpoofed && evidenceList.map((e, idx) => (
-                      <div key={idx} className="bento-list-item" style={{ background: '#f8d7da' }}>
-                        <strong className="d-block mb-1"><i className="bi bi-exclamation-triangle-fill text-danger"></i> Spoofing Evidence</strong>
+                      <div key={idx} className="bento-list-item" style={{ background: 'var(--theme-fail)', color: '#FFF' }}>
+                        <strong className="d-block mb-1"><i className="bi bi-exclamation-triangle-fill"></i> Spoofing Evidence</strong>
                         <span style={{ fontSize: '0.95rem' }}>{e}</span>
                       </div>
                     ))}
@@ -307,38 +308,33 @@ function App() {
                     <details className="bento-accordion">
                       <summary><i className="bi bi-shield-check"></i> SPF Basis</summary>
                       <div className="accordion-content">
-                        <p className="mb-2" style={{ fontSize: '0.95rem' }}>
-                          {auth.spf === 'PASS' 
-                            ? "The email was sent from an IP address officially authorized by the domain owner's SPF records."
-                            : "The sender's IP address is NOT listed in the domain's authorized SPF records."}
-                        </p>
-                        <div className="header-content-box pixel-mono mt-2">{auth.spf_basis || auth.raw_basis || "No raw SPF basis provided."}</div>
+                        <div className="header-content-box pixel-mono mt-2 scroll-x">{auth.spf_basis || "No specific SPF basis provided."}</div>
                       </div>
                     </details>
 
                     <details className="bento-accordion">
                       <summary><i className="bi bi-key"></i> DKIM Basis</summary>
                       <div className="accordion-content">
-                        <p className="mb-2" style={{ fontSize: '0.95rem' }}>
-                           {auth.dkim === 'PASS' 
-                            ? "A valid digital signature was found, proving the email wasn't altered in transit."
-                            : "The digital signature is missing, invalid, or broken."}
-                        </p>
-                        <div className="header-content-box pixel-mono mt-2">{auth.dkim_basis || "No raw DKIM basis provided."}</div>
+                        <div className="header-content-box pixel-mono mt-2 scroll-x">{auth.dkim_basis || "No specific DKIM basis provided."}</div>
                       </div>
                     </details>
 
                     <details className="bento-accordion">
                       <summary><i className="bi bi-diagram-3"></i> DMARC Basis</summary>
                       <div className="accordion-content">
-                        <p className="mb-2" style={{ fontSize: '0.95rem' }}>
-                           {auth.dmarc === 'PASS' 
-                            ? "The visible 'From' address aligns perfectly with the validated SPF/DKIM domains."
-                            : "The 'From' address does not match the server it was sent from, indicating potential spoofing."}
-                        </p>
-                        <div className="header-content-box pixel-mono mt-2">{auth.dmarc_basis || "No raw DMARC basis provided."}</div>
+                        <div className="header-content-box pixel-mono mt-2 scroll-x">{auth.dmarc_basis || "No specific DMARC basis provided."}</div>
                       </div>
                     </details>
+
+                    {/* Fallback if the backend groups them all into one raw string */}
+                    {auth.raw_basis && !auth.spf_basis && (
+                      <details className="bento-accordion">
+                        <summary><i className="bi bi-braces"></i> Raw Authentication Basis</summary>
+                        <div className="accordion-content">
+                          <div className="header-content-box pixel-mono mt-2 scroll-x">{auth.raw_basis}</div>
+                        </div>
+                      </details>
+                    )}
 
                   </div>
                 </div>
@@ -355,15 +351,15 @@ function App() {
                         const vt = item?.vt_reputation || {};
                         const isMalicious = vt.malicious > 0;
                         return (
-                          <div key={idx} className="bento-list-item horizontal-scroll d-flex justify-content-between align-items-center gap-3">
+                          <div key={idx} className="bento-list-item scroll-x d-flex justify-content-between align-items-center gap-3">
                             <span className="text-nowrap">{item?.domain || 'N/A'}</span>
                             
                             {vt.status === 'scored' ? (
                               isMalicious ? (
                                 <button 
                                   onClick={() => openVtModal(item.domain, vt.details)} 
-                                  className="bento-pill dark-pill text-nowrap pointer-hover" 
-                                  style={{ border: 'none', background: '#dc3545' }}
+                                  className="bento-pill fail-pill text-nowrap pointer-hover" 
+                                  style={{ border: 'none' }}
                                 >
                                   {vt.malicious} MALICIOUS <i className="bi bi-box-arrow-up-right ms-1"></i>
                                 </button>
@@ -396,7 +392,7 @@ function App() {
                       <div key={idx} className="col-md-6 col-lg-4">
                         <div className="bento-list-item h-100">
                           <strong className="d-block mb-1 text-truncate" title={hdr.name}>{hdr.name}</strong>
-                          <div className="header-content-box pixel-mono">
+                          <div className="header-content-box pixel-mono scroll-x">
                             {hdr.value}
                           </div>
                         </div>
