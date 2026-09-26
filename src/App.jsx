@@ -121,6 +121,10 @@ function App() {
               <li>Review the dashboard for spoofing alerts, malicious links, and unauthorized relays.</li>
             </ol>
           </div>
+          <div className="bento-list-item bg-white bg-opacity-25">
+            <h5 className="handwriting-text fw-bold m-0"><i className="bi bi-exclamation-diamond"></i> Disclaimer</h5>
+            <p className="m-0 fs-6">Disclaimer: The information displayed in this system, including all outputs, results, analyses, and recommendations, may not always be complete, accurate, current, or free from errors. Users are encouraged to independently verify any information before relying on it for academic, professional, legal, financial, technical, or other important purposes. By using this information, you acknowledge that you do so at your own risk, and the provider assumes no responsibility or liability for any decisions, actions, losses, or damages resulting from its use.</p>
+          </div>
         </div>
       )
     });
